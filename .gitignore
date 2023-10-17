@@ -1,0 +1,8 @@
+# Godot 4+ specific ignores
+.godot/
+autosave/
+game_definition/
+
+~*
+*.blend[0-9]
+

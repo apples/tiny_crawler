@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="QodotFGDFile" load_steps=7 format=3 uid="uid://blye67gc4j3vl"]
+
+[ext_resource type="Resource" uid="uid://df5ik2y2ceewi" path="res://fgd/entities/player_spawn.tres" id="1_1dyat"]
+[ext_resource type="Resource" uid="uid://dtrwmwppklvpw" path="res://addons/qodot/game_definitions/fgd/essentials_fgd.tres" id="1_ehqxt"]
+[ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_file.gd" id="1_pg1fu"]
+[ext_resource type="Resource" uid="uid://c8lt14x0a47bh" path="res://fgd/entities/torch.tres" id="3_i5530"]
+[ext_resource type="Resource" uid="uid://dy7undvxjvodx" path="res://addons/qodot/game_definitions/fgd/solid_classes/illusionary_solid_class.tres" id="4_j18td"]
+[ext_resource type="Resource" uid="uid://b70dbh5v15xno" path="res://addons/qodot/game_definitions/fgd/solid_classes/trigger_solid_class.tres" id="5_yg5g5"]
+
+[resource]
+script = ExtResource("1_pg1fu")
+export_file = false
+target_folder = ""
+fgd_name = "TinyCrawler"
+base_fgd_files = Array[Resource]([ExtResource("1_ehqxt")])
+entity_definitions = Array[Resource]([ExtResource("1_1dyat"), ExtResource("3_i5530"), ExtResource("4_j18td"), ExtResource("5_yg5g5")])

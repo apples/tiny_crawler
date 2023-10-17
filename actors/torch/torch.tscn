@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfdd0e8bosxn2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_15fxn"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 0.729412)
+
+[sub_resource type="SphereMesh" id="SphereMesh_dhmur"]
+material = SubResource("StandardMaterial3D_15fxn")
+radius = 0.25
+height = 0.5
+radial_segments = 8
+rings = 8
+
+[node name="Torch" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_dhmur")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.796078, 0.596078, 1)
+light_energy = 7.318
+light_specular = 0.0
+light_bake_mode = 1
+omni_range = 12.0
+omni_attenuation = 0.00276216

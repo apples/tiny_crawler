@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddnj32by6ko8x"]
+
+[ext_resource type="PackedScene" uid="uid://cjaobi3ouiohh" path="res://blend/lizard.blend" id="1_7ohrs"]
+[ext_resource type="Script" path="res://addons/jigglebones/jigglebone.gd" id="2_wfvxo"]
+
+[node name="Lizard" instance=ExtResource("1_7ohrs")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/2/rotation = Quaternion(-0.562863, -0.415679, -0.469839, 0.538189)
+bones/4/rotation = Quaternion(0.709294, -0.0280943, 0.704259, -0.0114858)
+bones/5/rotation = Quaternion(-0.0145713, 0.00195636, 0.0844516, 0.996319)
+bones/13/rotation = Quaternion(-0.00715666, -5.17001e-26, 4.3622e-25, 0.999974)
+bones/16/rotation = Quaternion(-0.562863, 0.415678, 0.469839, 0.53819)
+bones/18/rotation = Quaternion(-0.709294, -0.0280944, 0.704259, 0.0114858)
+bones/19/rotation = Quaternion(-0.0145713, -0.00195636, -0.0844516, 0.996319)
+
+[node name="JiggleboneTail" type="Node3D" parent="Armature/Skeleton3D" index="1"]
+transform = Transform3D(1, -6.70023e-10, -2.66981e-13, -3.53325e-10, -0.527671, 0.849449, -5.69291e-10, -0.849449, -0.527671, 0.00271953, 0.334957, -0.962885)
+top_level = true
+script = ExtResource("2_wfvxo")
+bone_name = "Tail0"
+stiffness = 0.5
+forward_axis = 1
+
+[node name="JiggleboneEarLeft" type="Node3D" parent="Armature/Skeleton3D" index="2"]
+transform = Transform3D(0.705599, 0.585787, -0.398727, 0.255802, 0.314181, 0.914251, 0.660829, -0.74709, 0.0718403, 0.815188, 2.03281, -0.727855)
+top_level = true
+script = ExtResource("2_wfvxo")
+bone_name = "Ear.L"
+stiffness = 0.5
+forward_axis = 1
+
+[node name="JiggleboneEarRight" type="Node3D" parent="Armature/Skeleton3D" index="3"]
+transform = Transform3D(0.705599, -0.585787, 0.398727, -0.255802, 0.314181, 0.914251, -0.660829, -0.74709, 0.0718403, -0.815188, 2.03281, -0.727855)
+top_level = true
+script = ExtResource("2_wfvxo")
+bone_name = "Ear.R"
+stiffness = 0.5
+forward_axis = 1
+
+[node name="JiggleboneHair" type="Node3D" parent="Armature/Skeleton3D" index="4"]
+transform = Transform3D(1, 7.16942e-10, -1.91611e-13, 7.02349e-10, -0.979592, 0.200998, 1.43916e-10, -0.200998, -0.979592, 0.00271953, 0.570578, -0.268401)
+top_level = true
+script = ExtResource("2_wfvxo")
+bone_name = "Hair"
+stiffness = 0.5
+forward_axis = 1
+
+[node name="AnimationPlayer" parent="." index="1"]
+speed_scale = 1.5

@@ -1,0 +1,31 @@
+[gd_resource type="Environment" load_steps=4 format=3 uid="uid://f6hio4u76dfq"]
+
+[ext_resource type="Texture2D" uid="uid://cj3hqrqpjgc0u" path="res://textures/nightsky_panorama.png" id="1_s5uw3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r7f5w"]
+sky_top_color = Color(0.109804, 0.137255, 0.184314, 1)
+sky_horizon_color = Color(0.0862745, 0.0705882, 0.0470588, 1)
+sky_curve = 0.184672
+sky_cover = ExtResource("1_s5uw3")
+sky_cover_modulate = Color(1, 1, 1, 0.0784314)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.0862745, 0.0705882, 0.0470588, 1)
+ground_curve = 0.0649805
+sun_angle_max = 4.52
+sun_curve = 3.3941
+
+[sub_resource type="Sky" id="Sky_13toq"]
+sky_material = SubResource("ProceduralSkyMaterial_r7f5w")
+process_mode = 1
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_13toq")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.0
+reflected_light_source = 1
+fog_enabled = true
+fog_light_color = Color(0, 0, 0, 1)
+fog_density = 0.0415
+fog_height_density = 0.252

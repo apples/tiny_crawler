@@ -1,0 +1,14 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+uid="uid://ojm4miabgfpi"
+path="res://.godot/imported/dungeon.map-988fde5045941623e1c35d481ee81d92.tres"
+
+[deps]
+
+source_file="res://scenes/dungeon/dungeon.map"
+dest_files=["res://.godot/imported/dungeon.map-988fde5045941623e1c35d481ee81d92.tres"]
+
+[params]
+
