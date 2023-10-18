@@ -1,4 +1,4 @@
-@icon("res://state_machine/icon_state_machine.svg")
+@icon("res://nodes/state_machine/icon_state_machine.svg")
 class_name StateMachine
 extends Node
 

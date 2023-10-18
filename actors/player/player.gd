@@ -1,10 +1,12 @@
 extends CharacterBody3D
 
-var step_height := 1.0
+var step_height := 0.6
 var min_step_height := 0.1
 var mouse_sensitivity := 0.01
 var move_speed := 15.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+var disable_movement := false
 
 var is_sword_hitbox_active: bool:
 	get:
@@ -57,7 +59,7 @@ func _physics_process(delta: float):
 	
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction = (transform.basis * -Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
+	if not disable_movement and direction:
 		velocity.x = direction.x * move_speed
 		velocity.z = direction.z * move_speed
 	else:
@@ -77,10 +79,22 @@ func move_and_slide_with_stairs(delta: float):
 	if _try_stair_step(motion):
 		return
 	
+	#var start_height := global_position.y
+	#var do_snap := is_on_floor()
+	#if is_on_floor():
+		#move_and_collide(Vector3.UP * step_height)
 	move_and_slide()
+	#if do_snap:
+		#apply_floor_snap()
+	#var gained_height := global_position.y - start_height
+	#if gained_height > 0:
+		#move_and_collide(Vector3.DOWN * gained_height)
 	
+	#motion = motion.normalized() * safe_margin
+	
+	#_try_stair_step(motion, true)
 
-func _try_stair_step(motion: Vector3):
+func _try_stair_step(motion: Vector3, allow_ramps := false):
 	if not is_on_floor():
 		return false
 	
@@ -125,7 +139,7 @@ func _try_stair_step(motion: Vector3):
 		# didn't land on anything
 		return false
 	
-	if stair_shape_cast_down.get_collision_normal(0).dot(Vector3.UP) < 0.95:
+	if not allow_ramps and stair_shape_cast_down.get_collision_normal(0).dot(Vector3.UP) < 0.95:
 		# landed on slope
 		return false
 	
