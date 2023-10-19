@@ -6,8 +6,6 @@ var mouse_sensitivity := 0.01
 var move_speed := 15.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-var disable_movement := false
-
 var is_sword_hitbox_active: bool:
 	get:
 		return sword_hitbox.monitoring if sword_hitbox else false
@@ -18,12 +16,13 @@ var is_sword_hitbox_active: bool:
 
 @onready var camera: Camera3D = %Camera3D
 @onready var sword_hitbox: Area3D = %SwordHitbox
-@onready var shape_cast: ShapeCast3D = $ShapeCast
 @onready var camera_spring_arm: SpringArm3D = %CameraSpringArm
 
 @onready var stair_shape_cast_up: ShapeCast3D = $StairShapeCastUp
 @onready var stair_shape_cast_forward: ShapeCast3D = $StairShapeCastForward
 @onready var stair_shape_cast_down: ShapeCast3D = $StairShapeCastDown
+@onready var lizard_target: Node3D = %LizardTarget
+@onready var state_machine: StateMachine = %StateMachine
 
 func swing_sword():
 	#animation_player.play("player_animations/sword_swing")
@@ -51,24 +50,31 @@ func _input(event):
 
 func _process(delta: float):
 	if velocity:
-		$LizardTarget.global_rotation.y = -Vector2(velocity.x, velocity.z).angle() + PI/2
+		lizard_target.global_rotation.y = -Vector2(velocity.x, velocity.z).angle() + PI/2
 
 func _physics_process(delta: float):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+	else:
+		if "handle_direction" in state_machine.current_state:
+			state_machine.current_state.handle_direction(delta)
+		else:
+			velocity.x = move_toward(velocity.x, 0, move_speed)
+			velocity.z = move_toward(velocity.z, 0, move_speed)
 	
+	animation_tree["parameters/MovementSM/IdleRun/blend_position"] = velocity.length() / move_speed
+	
+	move_and_slide_with_stairs(delta)
+
+func default_handle_direction(delta: float):
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction = (transform.basis * -Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if not disable_movement and direction:
+	if direction:
 		velocity.x = direction.x * move_speed
 		velocity.z = direction.z * move_speed
 	else:
 		velocity.x = move_toward(velocity.x, 0, move_speed)
 		velocity.z = move_toward(velocity.z, 0, move_speed)
-	
-	animation_tree["parameters/MovementSM/IdleRun/blend_position"] = velocity.length() / move_speed
-	
-	move_and_slide_with_stairs(delta)
 
 func move_and_slide_with_stairs(delta: float):
 	var motion := velocity * delta
@@ -158,3 +164,7 @@ func _on_sword_hitbox_body_entered(body: Node3D) -> void:
 	if "apply_damage" in body:
 		body.apply_damage(1)
 		is_sword_hitbox_active = false
+
+func notify_action_finished():
+	if "notify_action_finished" in state_machine.current_state:
+		state_machine.current_state.notify_action_finished()

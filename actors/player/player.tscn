@@ -1,7 +1,7 @@
-[gd_scene load_steps=28 format=3 uid="uid://cfxymdndtnfee"]
+[gd_scene load_steps=34 format=3 uid="uid://cfxymdndtnfee"]
 
+[ext_resource type="PackedScene" uid="uid://cjaobi3ouiohh" path="res://blend/lizard.blend" id="1_6sb3f"]
 [ext_resource type="Script" path="res://actors/player/player.gd" id="1_uiffw"]
-[ext_resource type="PackedScene" uid="uid://ddnj32by6ko8x" path="res://actors/player/lizard.tscn" id="2_u3pq5"]
 [ext_resource type="Script" path="res://nodes/motion_interpolator_3d.gd" id="3_1non6"]
 [ext_resource type="Script" path="res://nodes/state_machine/state_machine.gd" id="4_3kmlb"]
 [ext_resource type="Animation" uid="uid://b8hefmcvtspjs" path="res://blend/animations/RESET.tres" id="4_uqau1"]
@@ -9,35 +9,57 @@
 [ext_resource type="Animation" uid="uid://bsj7u7na3cdy7" path="res://blend/animations/attack1.tres" id="5_xom3j"]
 [ext_resource type="Script" path="res://actors/player/state_attacking.gd" id="6_gx5xf"]
 [ext_resource type="Animation" uid="uid://b7abl7kr8w8fj" path="res://blend/animations/fall.tres" id="6_q3uvi"]
+[ext_resource type="Script" path="res://actors/player/state_dodge.gd" id="7_dmn1x"]
 [ext_resource type="Animation" uid="uid://bpdwjnnfsfu3b" path="res://blend/animations/idle.tres" id="7_rjd7l"]
+[ext_resource type="Animation" uid="uid://cb5d5d1oo0hsg" path="res://blend/animations/dodgeroll.res" id="7_un7st"]
 [ext_resource type="Animation" uid="uid://lbd2mhveumo1" path="res://blend/animations/run.tres" id="8_f7tnq"]
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_3rjm5"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gwx1e"]
 _data = {
 "RESET": ExtResource("4_uqau1"),
 "attack1": ExtResource("5_xom3j"),
+"dodgeroll": ExtResource("7_un7st"),
 "fall": ExtResource("6_q3uvi"),
 "idle": ExtResource("7_rjd7l"),
 "run": ExtResource("8_f7tnq")
 }
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8vxpr"]
-animation = &"attack1"
-
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_chutm"]
 fadein_time = 0.1
 fadeout_time = 0.1
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ebtlv"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hu08m"]
+animation = &"attack1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1een2"]
+animation = &"dodgeroll"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_u77b2"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vy3n2"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_r38vx"]
+states/attack1/node = SubResource("AnimationNodeAnimation_hu08m")
+states/attack1/position = Vector2(602, 221)
+states/dodgeroll/node = SubResource("AnimationNodeAnimation_1een2")
+states/dodgeroll/position = Vector2(602, 45)
+transitions = ["dodgeroll", "End", SubResource("AnimationNodeStateMachineTransition_u77b2"), "attack1", "End", SubResource("AnimationNodeStateMachineTransition_vy3n2")]
+graph_offset = Vector2(347, -40)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ovgo3"]
 animation = &"idle"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5lc5e"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yfpwf"]
 animation = &"run"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_wbbd3"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_ebtlv")
+blend_point_0/node = SubResource("AnimationNodeAnimation_ovgo3")
 blend_point_0/pos = 0.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_5lc5e")
+blend_point_1/node = SubResource("AnimationNodeAnimation_yfpwf")
 blend_point_1/pos = 1.0
 min_space = 0.0
 
@@ -64,40 +86,75 @@ states/fall/node = SubResource("AnimationNodeAnimation_3gkxm")
 states/fall/position = Vector2(515, 75)
 transitions = ["Start", "IdleRun", SubResource("AnimationNodeStateMachineTransition_dwmai"), "IdleRun", "fall", SubResource("AnimationNodeStateMachineTransition_7e12x"), "fall", "IdleRun", SubResource("AnimationNodeStateMachineTransition_dceuf")]
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7vsjq"]
-graph_offset = Vector2(-519, 22)
-nodes/Animation/node = SubResource("AnimationNodeAnimation_8vxpr")
-nodes/Animation/position = Vector2(-120, 260)
-nodes/AttackOneShot/node = SubResource("AnimationNodeOneShot_chutm")
-nodes/AttackOneShot/position = Vector2(60, 140)
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_gb6ad"]
+nodes/ActionOneShot/node = SubResource("AnimationNodeOneShot_chutm")
+nodes/ActionOneShot/position = Vector2(360, 160)
+nodes/ActionStateMachine/node = SubResource("AnimationNodeStateMachine_r38vx")
+nodes/ActionStateMachine/position = Vector2(120, 300)
 nodes/MovementSM/node = SubResource("AnimationNodeStateMachine_mr7lb")
-nodes/MovementSM/position = Vector2(-360, 120)
-node_connections = [&"AttackOneShot", 0, &"MovementSM", &"AttackOneShot", 1, &"Animation", &"output", 0, &"AttackOneShot"]
+nodes/MovementSM/position = Vector2(-100, 180)
+nodes/output/position = Vector2(620, 180)
+node_connections = [&"ActionOneShot", 0, &"MovementSM", &"ActionOneShot", 1, &"ActionStateMachine", &"output", 0, &"ActionOneShot"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_yxtsb"]
-radius = 0.1
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_quqqp"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_qgrsn"]
 radius = 0.25
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_gfw8p"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_t45pp"]
+radius = 0.25
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vtwtn"]
 margin = 0.001
 height = 1.999
 radius = 0.249
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_8ytbt"]
-size = Vector3(2.1713, 2.7976, 1.58402)
+[sub_resource type="BoxShape3D" id="BoxShape3D_yqmr2"]
+size = Vector3(1.84962, 1.99988, 1.96018)
 
-[node name="Player" type="CharacterBody3D" groups=["player"]]
+[node name="Player" instance=ExtResource("1_6sb3f")]
 collision_layer = 2
-floor_max_angle = 1.0472
-floor_snap_length = 3.0
+floor_snap_length = 0.6
 script = ExtResource("1_uiffw")
 
-[node name="Lizard" parent="." instance=ExtResource("2_u3pq5")]
+[node name="Armature" parent="." index="0"]
 top_level = true
 
-[node name="MotionInterpolator3D" type="Node3D" parent="Lizard"]
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/2/rotation = Quaternion(-0.562863, -0.415679, -0.469839, 0.538189)
+bones/2/scale = Vector3(1, 1, 1)
+bones/4/rotation = Quaternion(-0.23655, 0.0321627, 0.149919, 0.959445)
+bones/4/scale = Vector3(1, 1, 1)
+bones/5/rotation = Quaternion(0.709438, -0.0263007, 0.704213, -0.00952185)
+bones/5/scale = Vector3(1, 1, 1)
+bones/7/rotation = Quaternion(-0.000145374, 8.50136e-06, -0.7506, 0.660757)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/rotation = Quaternion(0.873921, 0, 0, -0.486068)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/rotation = Quaternion(0.348274, 0, 0, 0.937393)
+bones/10/scale = Vector3(1, 1, 1)
+bones/12/rotation = Quaternion(-0.595108, 0, 0, 0.803646)
+bones/13/rotation = Quaternion(-0.288007, 0, 0, 0.957628)
+bones/16/rotation = Quaternion(-0.57436, -0.366359, -0.11416, 0.72309)
+bones/16/scale = Vector3(1, 1, 1)
+bones/17/rotation = Quaternion(-0.57436, 0.366359, 0.11416, 0.72309)
+bones/17/scale = Vector3(1, 1, 1)
+bones/18/rotation = Quaternion(0.994898, 0, 0, -0.100888)
+bones/18/scale = Vector3(1, 1, 1)
+bones/19/rotation = Quaternion(-0.562863, 0.415678, 0.469839, 0.53819)
+bones/19/scale = Vector3(1, 1, 1)
+bones/21/rotation = Quaternion(-0.23655, -0.0321627, -0.149919, 0.959445)
+bones/22/rotation = Quaternion(-0.709438, -0.0263007, 0.704213, 0.00952185)
+bones/22/scale = Vector3(1, 1, 1)
+bones/24/rotation = Quaternion(-0.000145374, -8.50136e-06, 0.7506, 0.660757)
+bones/24/scale = Vector3(1, 1, 1)
+bones/26/rotation = Quaternion(0.506084, 0.493841, 0.493841, 0.506084)
+bones/26/scale = Vector3(1, 1, 1)
+bones/27/scale = Vector3(1, 1, 1)
+bones/28/scale = Vector3(1, 1, 1)
+bones/30/rotation = Quaternion(0.506084, -0.493841, -0.493841, 0.506084)
+bones/31/scale = Vector3(1, 1, 1)
+bones/32/scale = Vector3(1, 1, 1)
+
+[node name="MotionInterpolator3D" type="Node3D" parent="Armature" index="1"]
 process_priority = 2
 process_physics_priority = 2
 script = ExtResource("3_1non6")
@@ -105,93 +162,100 @@ target_path = NodePath("../../LizardTarget")
 position_smoothing = 0.5
 rotation_smoothing = 0.5
 
-[node name="LizardTarget" type="Node3D" parent="."]
+[node name="StateMachine" type="Node" parent="." index="1"]
+unique_name_in_owner = true
+script = ExtResource("4_3kmlb")
+this_path = NodePath("..")
+
+[node name="Neutral" type="Node" parent="StateMachine" index="0"]
+script = ExtResource("5_p1ua8")
+
+[node name="Attacking" type="Node" parent="StateMachine" index="1"]
+script = ExtResource("6_gx5xf")
+
+[node name="Dodge" type="Node" parent="StateMachine" index="2"]
+script = ExtResource("7_dmn1x")
+
+[node name="AnimationPlayer" parent="." index="2"]
+root_motion_track = NodePath("Armature/Skeleton3D:Root")
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="3"]
+unique_name_in_owner = true
+root_node = NodePath("%AnimationTree/..")
+root_motion_track = NodePath("Armature/Skeleton3D:Root")
+libraries = {
+"": SubResource("AnimationLibrary_gwx1e")
+}
+tree_root = SubResource("AnimationNodeBlendTree_gb6ad")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
+parameters/ActionOneShot/active = false
+parameters/ActionOneShot/internal_active = false
+parameters/ActionOneShot/request = 0
+parameters/MovementSM/IdleRun/blend_position = 0
+
+[node name="LizardTarget" type="Node3D" parent="." index="4"]
+unique_name_in_owner = true
 top_level = true
 
-[node name="LizardTargetRemoteTransform3D" type="RemoteTransform3D" parent="."]
+[node name="LizardTargetRemoteTransform3D" type="RemoteTransform3D" parent="." index="5"]
 process_priority = 1
 process_physics_priority = 1
 remote_path = NodePath("../LizardTarget")
 update_rotation = false
 update_scale = false
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
-unique_name_in_owner = true
-root_node = NodePath("%AnimationTree/../Lizard")
-libraries = {
-"": SubResource("AnimationLibrary_3rjm5")
-}
-tree_root = SubResource("AnimationNodeBlendTree_7vsjq")
-advance_expression_base_node = NodePath("..")
-anim_player = NodePath("../Lizard/AnimationPlayer")
-parameters/AttackOneShot/active = false
-parameters/AttackOneShot/internal_active = false
-parameters/AttackOneShot/request = 0
-parameters/MovementSM/IdleRun/blend_position = 0
-
-[node name="CameraSpringArm" type="SpringArm3D" parent="."]
+[node name="CameraSpringArm" type="SpringArm3D" parent="." index="6"]
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.40404, 0)
-shape = SubResource("SphereShape3D_yxtsb")
+shape = SubResource("SphereShape3D_qgrsn")
 spring_length = 3.0
 
-[node name="CameraTarget" type="Node3D" parent="CameraSpringArm"]
+[node name="CameraTarget" type="Node3D" parent="CameraSpringArm" index="0"]
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." index="7"]
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.371, -3)
 top_level = true
 current = true
 
-[node name="MotionInterpolator3D" type="Node3D" parent="Camera3D"]
+[node name="MotionInterpolator3D" type="Node3D" parent="Camera3D" index="0"]
 process_priority = 1
 script = ExtResource("3_1non6")
 target_path = NodePath("../../CameraSpringArm/CameraTarget")
 position_smoothing = 0.5
 rotation_smoothing = 0.5
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("this")]
-script = ExtResource("4_3kmlb")
-this = NodePath("..")
-
-[node name="Neutral" type="Node" parent="StateMachine"]
-script = ExtResource("5_p1ua8")
-
-[node name="Attacking" type="Node" parent="StateMachine"]
-script = ExtResource("6_gx5xf")
-
-[node name="MainCollisionShape" type="CollisionShape3D" parent="."]
+[node name="MainCollisionShape" type="CollisionShape3D" parent="." index="8"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CylinderShape3D_quqqp")
+shape = SubResource("CylinderShape3D_t45pp")
 
-[node name="StairShapeCastUp" type="ShapeCast3D" parent="."]
+[node name="StairShapeCastUp" type="ShapeCast3D" parent="." index="9"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 enabled = false
-shape = SubResource("CylinderShape3D_gfw8p")
+shape = SubResource("CylinderShape3D_vtwtn")
 target_position = Vector3(0, 0, 0)
 
-[node name="StairShapeCastForward" type="ShapeCast3D" parent="."]
+[node name="StairShapeCastForward" type="ShapeCast3D" parent="." index="10"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 enabled = false
-shape = SubResource("CylinderShape3D_gfw8p")
+shape = SubResource("CylinderShape3D_vtwtn")
 target_position = Vector3(0, 0, 0)
 
-[node name="StairShapeCastDown" type="ShapeCast3D" parent="."]
+[node name="StairShapeCastDown" type="ShapeCast3D" parent="." index="11"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 enabled = false
-shape = SubResource("CylinderShape3D_gfw8p")
+shape = SubResource("CylinderShape3D_vtwtn")
 target_position = Vector3(0, 0, 0)
 
-[node name="SwordHitbox" type="Area3D" parent="."]
+[node name="AttackHitbox" type="Area3D" parent="." index="12"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.64384, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.64384, 1.32194)
 collision_layer = 4
 collision_mask = 8
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SwordHitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.189, 1.587)
-shape = SubResource("BoxShape3D_8ytbt")
-
-[connection signal="body_entered" from="SwordHitbox" to="." method="_on_sword_hitbox_body_entered"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AttackHitbox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.646558, 0)
+shape = SubResource("BoxShape3D_yqmr2")

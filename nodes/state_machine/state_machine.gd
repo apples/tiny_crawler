@@ -2,12 +2,14 @@
 class_name StateMachine
 extends Node
 
-@export var this: Node
+@export var this_path: NodePath
 @export var default_state: StateMachineState
 
+var this: Node
 var current_state: StateMachineState
 
 func _ready():
+	this = get_node(this_path)
 	assert(this)
 	
 	if not default_state:
