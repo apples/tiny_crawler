@@ -10,3 +10,4 @@
 *.so filter=lfs diff=lfs merge=lfs -text
 godot-jolt_macos filter=lfs diff=lfs merge=lfs -text
 godot-jolt_macos_editor filter=lfs diff=lfs merge=lfs -text
+*.res filter=lfs diff=lfs merge=lfs -text

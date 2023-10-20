@@ -1,14 +1,16 @@
 extends StateMachineState
 
 var move_speed_penalty := 0.001
+var direction: Vector3
 
 func _enter_state(_param):
-	this.move_speed *= move_speed_penalty
-	this.animation_tree["parameters/ActionStateMachine/playback"].start("attack1")
-	this.animation_tree["parameters/ActionOneShot/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+	direction = this.aim_direction
+	this.animation_tree["parameters/playback"].travel("Actions")
+	this.animation_tree["parameters/Actions/playback"].travel("attack1")
 
-func _exit_state():
-	this.move_speed /= move_speed_penalty
+func handle_direction(delta: float):
+	this.velocity.x = direction.x * move_speed_penalty
+	this.velocity.z = direction.z * move_speed_penalty
 
 func notify_action_finished():
 	goto("Neutral")

@@ -42,7 +42,7 @@ func goto(state_name: String, param = null):
 	current_state.process_mode = Node.PROCESS_MODE_DISABLED
 	
 	current_state = next_state
-	await get_tree().process_frame
+	#await get_tree().process_frame
 	
 	current_state.process_mode = Node.PROCESS_MODE_INHERIT
 	current_state._enter_state(param)

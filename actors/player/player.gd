@@ -3,14 +3,20 @@ extends CharacterBody3D
 var step_height := 0.6
 var min_step_height := 0.1
 var mouse_sensitivity := 0.01
-var move_speed := 15.0
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var move_speed := 10.0
+var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+var velocity_blend_xfade := 0.1
 
 var is_sword_hitbox_active: bool:
 	get:
 		return sword_hitbox.monitoring if sword_hitbox else false
 	set(v):
 		sword_hitbox.monitoring = v
+
+var aim_direction: Vector3:
+	get:
+		var horizontal_vel := velocity * Vector3(1, 0, 1)
+		return horizontal_vel.normalized() if not horizontal_vel.is_zero_approx() else global_basis * Vector3.MODEL_FRONT
 
 @onready var animation_tree: AnimationTree = %AnimationTree
 
@@ -37,9 +43,9 @@ func _input(event):
 			swing_sword()
 		
 		if event is InputEventMouseMotion:
-			rotate_y(-event.relative.x * mouse_sensitivity)
-			camera_spring_arm.rotate_x(event.relative.y * mouse_sensitivity)
-			camera_spring_arm.rotation.x = clampf(camera_spring_arm.rotation.x, -deg_to_rad(85), deg_to_rad(85))
+			camera_spring_arm.rotate_y(-event.relative.x * mouse_sensitivity)
+			camera_spring_arm.rotation.x = clampf(camera_spring_arm.rotation.x - event.relative.y * mouse_sensitivity, -deg_to_rad(60), deg_to_rad(60))
+			print(rad_to_deg(camera_spring_arm.rotation.x))
 	elif event is InputEventMouseButton:
 		if event.pressed:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -49,26 +55,25 @@ func _input(event):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _process(delta: float):
-	if velocity:
-		lizard_target.global_rotation.y = -Vector2(velocity.x, velocity.z).angle() + PI/2
-
-func _physics_process(delta: float):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-	else:
-		if "handle_direction" in state_machine.current_state:
-			state_machine.current_state.handle_direction(delta)
-		else:
-			velocity.x = move_toward(velocity.x, 0, move_speed)
-			velocity.z = move_toward(velocity.z, 0, move_speed)
+	if "handle_direction" in state_machine.current_state:
+		state_machine.current_state.handle_direction(delta)
+	if velocity:
+		global_rotation.y = -Vector2(velocity.x, velocity.z).angle() + PI/2
 	
-	animation_tree["parameters/MovementSM/IdleRun/blend_position"] = velocity.length() / move_speed
+	var current_velocity_blend: float = animation_tree["parameters/Movement/IdleRun/blend_position"]
+	var target_velocity_blend := velocity.length() / move_speed
+	var velocity_blend := move_toward(current_velocity_blend, target_velocity_blend, delta / velocity_blend_xfade) 
+	animation_tree["parameters/Movement/IdleRun/blend_position"] = velocity_blend
 	
 	move_and_slide_with_stairs(delta)
 
 func default_handle_direction(delta: float):
+	if not is_on_floor():
+		return
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	var direction = (transform.basis * -Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var direction = (camera_spring_arm.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
 		velocity.x = direction.x * move_speed
 		velocity.z = direction.z * move_speed

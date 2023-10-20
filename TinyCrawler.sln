@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyCrawler", "TinyCrawler.csproj", "{9F03EA21-25D4-427A-B65D-EE4984A82303}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyCrawler", "TinyCrawler.csproj", "{BC519A1C-7C62-450E-8C1F-EC6F7E6BA0B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,11 +9,11 @@ Global
 	ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9F03EA21-25D4-427A-B65D-EE4984A82303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F03EA21-25D4-427A-B65D-EE4984A82303}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F03EA21-25D4-427A-B65D-EE4984A82303}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
-		{9F03EA21-25D4-427A-B65D-EE4984A82303}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
-		{9F03EA21-25D4-427A-B65D-EE4984A82303}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
-		{9F03EA21-25D4-427A-B65D-EE4984A82303}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{BC519A1C-7C62-450E-8C1F-EC6F7E6BA0B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC519A1C-7C62-450E-8C1F-EC6F7E6BA0B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC519A1C-7C62-450E-8C1F-EC6F7E6BA0B9}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{BC519A1C-7C62-450E-8C1F-EC6F7E6BA0B9}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{BC519A1C-7C62-450E-8C1F-EC6F7E6BA0B9}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{BC519A1C-7C62-450E-8C1F-EC6F7E6BA0B9}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
 	EndGlobalSection
 EndGlobal
