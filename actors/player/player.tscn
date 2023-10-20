@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cfxymdndtnfee"]
+[gd_scene load_steps=37 format=3 uid="uid://cfxymdndtnfee"]
 
 [ext_resource type="PackedScene" uid="uid://cjaobi3ouiohh" path="res://blend/lizard.blend" id="1_6sb3f"]
 [ext_resource type="Script" path="res://actors/player/player.gd" id="1_uiffw"]
@@ -15,7 +15,7 @@
 [ext_resource type="Animation" uid="uid://cb5d5d1oo0hsg" path="res://blend/animations/dodgeroll.res" id="7_un7st"]
 [ext_resource type="Animation" uid="uid://lbd2mhveumo1" path="res://blend/animations/run.tres" id="8_f7tnq"]
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_trrq8"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e0piw"]
 _data = {
 "RESET": ExtResource("4_uqau1"),
 "attack1": ExtResource("5_xom3j"),
@@ -42,39 +42,48 @@ graph_offset = Vector2(11, -97)
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ekjjs"]
 animation = &"fall"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_laxhg"]
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_bjek6"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2m8sx"]
 animation = &"idle"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kwrrw"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3mx7g"]
 animation = &"run"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_svru4"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_laxhg")
-blend_point_0/pos = 0.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_kwrrw")
-blend_point_1/pos = 1.0
-min_space = 0.0
-sync = true
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_6ks4p"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xab8k"]
-advance_mode = 2
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_xoo8p"]
+graph_offset = Vector2(-369.832, 31.3138)
+nodes/Blend/node = SubResource("AnimationNodeBlend2_bjek6")
+nodes/Blend/position = Vector2(220, 120)
+nodes/Idle/node = SubResource("AnimationNodeAnimation_2m8sx")
+nodes/Idle/position = Vector2(-139, 112)
+nodes/Run/node = SubResource("AnimationNodeAnimation_3mx7g")
+nodes/Run/position = Vector2(-140, 240)
+nodes/RunTimeScale/node = SubResource("AnimationNodeTimeScale_6ks4p")
+nodes/RunTimeScale/position = Vector2(20, 240)
+nodes/output/position = Vector2(380, 120)
+node_connections = [&"Blend", 0, &"Idle", &"Blend", 1, &"RunTimeScale", &"RunTimeScale", 0, &"Run", &"output", 0, &"Blend"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tje8s"]
-xfade_time = 0.2
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_oi4pp"]
+xfade_time = 0.1
 advance_mode = 2
 advance_expression = "not is_on_floor()"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g8f1v"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_r3vdq"]
 xfade_time = 0.1
 advance_mode = 2
 advance_expression = "is_on_floor()"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cnocx"]
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_q7jsv"]
 states/Fall/node = SubResource("AnimationNodeAnimation_ekjjs")
-states/Fall/position = Vector2(544, 100)
-states/IdleRun/node = SubResource("AnimationNodeBlendSpace1D_svru4")
-states/IdleRun/position = Vector2(412, 100)
-transitions = ["Start", "IdleRun", SubResource("AnimationNodeStateMachineTransition_xab8k"), "IdleRun", "Fall", SubResource("AnimationNodeStateMachineTransition_tje8s"), "Fall", "IdleRun", SubResource("AnimationNodeStateMachineTransition_g8f1v")]
+states/Fall/position = Vector2(639, 100)
+states/IdleRun/node = SubResource("AnimationNodeBlendTree_xoo8p")
+states/IdleRun/position = Vector2(426, 100)
+transitions = ["IdleRun", "Fall", SubResource("AnimationNodeStateMachineTransition_oi4pp"), "Fall", "IdleRun", SubResource("AnimationNodeStateMachineTransition_r3vdq"), "Start", "IdleRun", SubResource("AnimationNodeStateMachineTransition_cnocx")]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_p15tj"]
 advance_mode = 2
@@ -152,21 +161,21 @@ bones/32/scale = Vector3(1, 1, 1)
 bones/33/scale = Vector3(1, 1, 1)
 
 [node name="JiggleboneEarL" type="Node3D" parent="Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.705882, 0.585877, -0.398093, -0.210496, 0.710133, 0.671865, 0.676329, -0.39046, 0.624595, 0.81506, 2.34397, -0.227977)
+transform = Transform3D(0.705688, 0.585983, -0.398281, -0.210037, 0.709877, 0.672278, 0.676674, -0.390765, 0.624031, 0.815274, 2.34425, -0.226494)
 top_level = true
 script = ExtResource("3_uxj4g")
 bone_name = "Ear.L"
 forward_axis = 1
 
 [node name="JiggleboneEarR" type="Node3D" parent="Armature/Skeleton3D" index="2"]
-transform = Transform3D(0.705882, -0.585877, 0.398093, 0.210496, 0.710133, 0.671865, -0.676329, -0.39046, 0.624595, -0.81506, 2.34397, -0.227976)
+transform = Transform3D(0.705688, -0.585983, 0.39828, 0.210037, 0.709877, 0.672278, -0.676674, -0.390765, 0.624031, -0.815274, 2.34425, -0.226494)
 top_level = true
 script = ExtResource("3_uxj4g")
 bone_name = "Ear.R"
 forward_axis = 1
 
 [node name="JiggleboneTail0" type="Node3D" parent="Armature/Skeleton3D" index="3"]
-transform = Transform3D(1, -2.70425e-10, -2.28884e-12, -1.29549e-10, -0.486451, 0.873708, -2.37386e-10, -0.873708, -0.486451, 0.00271953, 0.323325, -0.998161)
+transform = Transform3D(1, 1.69219e-09, 8.77998e-12, 8.14499e-10, -0.485862, 0.874035, 1.4833e-09, -0.874035, -0.485862, 0.00271953, 0.329267, -1.00109)
 top_level = true
 script = ExtResource("3_uxj4g")
 bone_name = "Tail0"
@@ -174,7 +183,7 @@ stiffness = 0.2
 forward_axis = 1
 
 [node name="JiggleboneHair" type="Node3D" parent="Armature/Skeleton3D" index="4"]
-transform = Transform3D(1, 2.29585e-10, 5.4301e-13, 1.47069e-10, -0.642398, 0.766371, 1.76296e-10, -0.766371, -0.642398, 0.00271953, 0.914354, -0.775039)
+transform = Transform3D(1, -4.64907e-10, -1.08487e-12, -2.98715e-10, -0.64431, 0.764765, -3.56243e-10, -0.764764, -0.64431, 0.00271953, 0.911352, -0.775491)
 top_level = true
 script = ExtResource("3_uxj4g")
 bone_name = "Hair"
@@ -211,12 +220,13 @@ unique_name_in_owner = true
 root_node = NodePath("%AnimationTree/..")
 root_motion_track = NodePath("Armature/Skeleton3D:Root")
 libraries = {
-"": SubResource("AnimationLibrary_trrq8")
+"": SubResource("AnimationLibrary_e0piw")
 }
 tree_root = SubResource("AnimationNodeStateMachine_eyecr")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
-parameters/Movement/IdleRun/blend_position = 0
+parameters/Movement/IdleRun/Blend/blend_amount = 0
+parameters/Movement/IdleRun/RunTimeScale/scale = 1.0
 
 [node name="CameraPivot" type="Node3D" parent="." index="4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)

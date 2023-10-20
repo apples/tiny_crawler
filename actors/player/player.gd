@@ -3,15 +3,13 @@ extends CharacterBody3D
 var step_height := 0.6
 var min_step_height := 0.1
 var mouse_sensitivity := 0.01
-var move_speed := 10.0
+var move_speed_multiplier := 2.0
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var velocity_blend_xfade := 0.1
 
-var is_sword_hitbox_active: bool:
+var move_speed := 5.92477 / (4.0/3.0):
 	get:
-		return sword_hitbox.monitoring if sword_hitbox else false
-	set(v):
-		sword_hitbox.monitoring = v
+		return move_speed * move_speed_multiplier
 
 var aim_direction: Vector3:
 	get:
@@ -21,7 +19,7 @@ var aim_direction: Vector3:
 @onready var animation_tree: AnimationTree = %AnimationTree
 
 @onready var camera: Camera3D = %Camera3D
-@onready var sword_hitbox: Area3D = %SwordHitbox
+@onready var attack_hitbox: Area3D = %AttackHitbox
 @onready var camera_spring_arm: SpringArm3D = %CameraSpringArm
 
 @onready var stair_shape_cast_up: ShapeCast3D = $StairShapeCastUp
@@ -35,14 +33,17 @@ func swing_sword():
 	pass
 
 func _ready():
+	print("readying")
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	print("ready")
 
-func _input(event):
+func _input(event: InputEvent):
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		if event.is_action_pressed("attack"):
 			swing_sword()
 		
 		if event is InputEventMouseMotion:
+			print(event.relative)
 			camera_spring_arm.rotate_y(-event.relative.x * mouse_sensitivity)
 			camera_spring_arm.rotation.x = clampf(camera_spring_arm.rotation.x - event.relative.y * mouse_sensitivity, -deg_to_rad(60), deg_to_rad(60))
 			print(rad_to_deg(camera_spring_arm.rotation.x))
@@ -62,10 +63,12 @@ func _process(delta: float):
 	if velocity:
 		global_rotation.y = -Vector2(velocity.x, velocity.z).angle() + PI/2
 	
-	var current_velocity_blend: float = animation_tree["parameters/Movement/IdleRun/blend_position"]
+	var current_velocity_blend: float = animation_tree["parameters/Movement/IdleRun/Blend/blend_amount"]
 	var target_velocity_blend := velocity.length() / move_speed
 	var velocity_blend := move_toward(current_velocity_blend, target_velocity_blend, delta / velocity_blend_xfade) 
-	animation_tree["parameters/Movement/IdleRun/blend_position"] = velocity_blend
+	animation_tree["parameters/Movement/IdleRun/Blend/blend_amount"] = velocity_blend
+	
+	animation_tree["parameters/Movement/IdleRun/RunTimeScale/scale"] = move_speed_multiplier
 	
 	move_and_slide_with_stairs(delta)
 
@@ -90,20 +93,7 @@ func move_and_slide_with_stairs(delta: float):
 	if _try_stair_step(motion):
 		return
 	
-	#var start_height := global_position.y
-	#var do_snap := is_on_floor()
-	#if is_on_floor():
-		#move_and_collide(Vector3.UP * step_height)
 	move_and_slide()
-	#if do_snap:
-		#apply_floor_snap()
-	#var gained_height := global_position.y - start_height
-	#if gained_height > 0:
-		#move_and_collide(Vector3.DOWN * gained_height)
-	
-	#motion = motion.normalized() * safe_margin
-	
-	#_try_stair_step(motion, true)
 
 func _try_stair_step(motion: Vector3, allow_ramps := false):
 	if not is_on_floor():
@@ -168,7 +158,7 @@ func _try_stair_step(motion: Vector3, allow_ramps := false):
 func _on_sword_hitbox_body_entered(body: Node3D) -> void:
 	if "apply_damage" in body:
 		body.apply_damage(1)
-		is_sword_hitbox_active = false
+		attack_hitbox.monitoring = false
 
 func notify_action_finished():
 	if "notify_action_finished" in state_machine.current_state:
