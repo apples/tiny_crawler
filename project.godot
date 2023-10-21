@@ -16,6 +16,10 @@ run/main_scene="res://scenes/dungeon/dungeon.tscn"
 config/features=PackedStringArray("4.2", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+CursorCapture="res://autoload/cursor_capture.gd"
+
 [display]
 
 window/size/viewport_width=1280

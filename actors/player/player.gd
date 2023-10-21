@@ -25,35 +25,14 @@ var aim_direction: Vector3:
 @onready var stair_shape_cast_up: ShapeCast3D = $StairShapeCastUp
 @onready var stair_shape_cast_forward: ShapeCast3D = $StairShapeCastForward
 @onready var stair_shape_cast_down: ShapeCast3D = $StairShapeCastDown
-@onready var lizard_target: Node3D = %LizardTarget
 @onready var state_machine: StateMachine = %StateMachine
-
-func swing_sword():
-	#animation_player.play("player_animations/sword_swing")
-	pass
-
-func _ready():
-	print("readying")
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	print("ready")
 
 func _input(event: InputEvent):
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		if event.is_action_pressed("attack"):
-			swing_sword()
-		
 		if event is InputEventMouseMotion:
-			print(event.relative)
 			camera_spring_arm.rotate_y(-event.relative.x * mouse_sensitivity)
 			camera_spring_arm.rotation.x = clampf(camera_spring_arm.rotation.x - event.relative.y * mouse_sensitivity, -deg_to_rad(60), deg_to_rad(60))
-			print(rad_to_deg(camera_spring_arm.rotation.x))
-	elif event is InputEventMouseButton:
-		if event.pressed:
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
-	
-	if event.is_action_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _process(delta: float):
 	if not is_on_floor():
@@ -67,6 +46,7 @@ func _process(delta: float):
 	var target_velocity_blend := velocity.length() / move_speed
 	var velocity_blend := move_toward(current_velocity_blend, target_velocity_blend, delta / velocity_blend_xfade) 
 	animation_tree["parameters/Movement/IdleRun/Blend/blend_amount"] = velocity_blend
+	print(animation_tree["parameters/Movement/IdleRun/Blend/blend_amount"])
 	
 	animation_tree["parameters/Movement/IdleRun/RunTimeScale/scale"] = move_speed_multiplier
 	
