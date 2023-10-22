@@ -11,6 +11,10 @@ func _input(event: InputEvent):
 		if event is InputEventMouseMotion:
 			camera.yaw += -event.relative.x * mouse_sensitivity
 			camera.pitch = clampf(camera.pitch - event.relative.y * mouse_sensitivity, -deg_to_rad(60), deg_to_rad(60))
+		if event.is_action_pressed("zoom_in"):
+			camera.distance /= 1.1
+		if event.is_action_pressed("zoom_out"):
+			camera.distance *= 1.1
 
 func _process(delta: float):
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")

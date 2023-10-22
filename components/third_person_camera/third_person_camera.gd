@@ -24,3 +24,9 @@ var roll: float:
 		return camera.rotation.z
 	set(v):
 		camera.rotation.z = v
+
+var distance: float:
+	get:
+		return camera_spring_arm.spring_length
+	set(v):
+		camera_spring_arm.spring_length = v
