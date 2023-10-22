@@ -1,22 +1,22 @@
-[gd_scene load_steps=21 format=3 uid="uid://cfxymdndtnfee"]
+[gd_scene load_steps=17 format=3 uid="uid://cfxymdndtnfee"]
 
-[ext_resource type="PackedScene" uid="uid://cjaobi3ouiohh" path="res://blend/lizard.blend" id="1_6sb3f"]
+[ext_resource type="PackedScene" uid="uid://cjaobi3ouiohh" path="res://blend/lizard/lizard.blend" id="1_6sb3f"]
+[ext_resource type="PackedScene" uid="uid://23diikqy7ade" path="res://actors/character_base/character_base.tscn" id="1_ayygw"]
 [ext_resource type="Script" path="res://actors/player/player.gd" id="1_uiffw"]
 [ext_resource type="Script" path="res://nodes/motion_interpolator_3d.gd" id="3_1non6"]
-[ext_resource type="Script" path="res://addons/jigglebones/jigglebone.gd" id="3_uxj4g"]
 [ext_resource type="Script" path="res://nodes/state_machine/state_machine.gd" id="4_3kmlb"]
-[ext_resource type="Animation" uid="uid://b8hefmcvtspjs" path="res://blend/animations/RESET.tres" id="4_uqau1"]
+[ext_resource type="Animation" uid="uid://b8hefmcvtspjs" path="res://blend/lizard/animations/RESET.tres" id="4_uqau1"]
+[ext_resource type="PackedScene" uid="uid://oco5jpcxv3xc" path="res://components/third_person_camera/third_person_camera.tscn" id="4_xecjq"]
 [ext_resource type="Script" path="res://actors/player/state_neutral.gd" id="5_p1ua8"]
-[ext_resource type="Animation" uid="uid://bsj7u7na3cdy7" path="res://blend/animations/attack1.tres" id="5_xom3j"]
+[ext_resource type="Animation" uid="uid://bsj7u7na3cdy7" path="res://blend/lizard/animations/attack1.tres" id="5_xom3j"]
 [ext_resource type="Script" path="res://actors/player/state_attacking.gd" id="6_gx5xf"]
-[ext_resource type="Animation" uid="uid://b7abl7kr8w8fj" path="res://blend/animations/fall.tres" id="6_q3uvi"]
+[ext_resource type="Animation" uid="uid://b7abl7kr8w8fj" path="res://blend/lizard/animations/fall.tres" id="6_q3uvi"]
 [ext_resource type="Script" path="res://actors/player/state_dodge.gd" id="7_dmn1x"]
-[ext_resource type="Animation" uid="uid://bpdwjnnfsfu3b" path="res://blend/animations/idle.tres" id="7_rjd7l"]
-[ext_resource type="Animation" uid="uid://cb5d5d1oo0hsg" path="res://blend/animations/dodgeroll.res" id="7_un7st"]
-[ext_resource type="Animation" uid="uid://lbd2mhveumo1" path="res://blend/animations/run.tres" id="8_f7tnq"]
-[ext_resource type="AnimationNodeStateMachine" uid="uid://ra1hql5wuxiu" path="res://actors/player/player_animation_tree.tres" id="11_rk02y"]
+[ext_resource type="Animation" uid="uid://bpdwjnnfsfu3b" path="res://blend/lizard/animations/idle.tres" id="7_rjd7l"]
+[ext_resource type="Animation" uid="uid://cb5d5d1oo0hsg" path="res://blend/lizard/animations/dodgeroll.res" id="7_un7st"]
+[ext_resource type="Animation" uid="uid://lbd2mhveumo1" path="res://blend/lizard/animations/run.tres" id="8_f7tnq"]
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_nnnro"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_63ovd"]
 _data = {
 "RESET": ExtResource("4_uqau1"),
 "attack1": ExtResource("5_xom3j"),
@@ -26,191 +26,62 @@ _data = {
 "run": ExtResource("8_f7tnq")
 }
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_qgrsn"]
-radius = 0.25
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_t45pp"]
-radius = 0.25
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_vtwtn"]
-margin = 0.001
-height = 1.999
-radius = 0.249
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_yqmr2"]
-size = Vector3(1.84962, 1.99988, 1.96018)
-
-[node name="Player" instance=ExtResource("1_6sb3f")]
-collision_layer = 2
-floor_snap_length = 0.6
+[node name="Player" type="Node3D"]
 script = ExtResource("1_uiffw")
 
-[node name="Armature" parent="." index="0"]
-top_level = true
+[node name="CharacterBase" parent="." instance=ExtResource("1_ayygw")]
 
-[node name="Skeleton3D" parent="Armature" index="0"]
-bones/2/rotation = Quaternion(-0.562863, -0.415679, -0.469839, 0.538189)
-bones/2/scale = Vector3(1, 1, 1)
-bones/4/scale = Vector3(1, 1, 1)
-bones/6/rotation = Quaternion(-0.57436, -0.366359, -0.11416, 0.72309)
-bones/6/scale = Vector3(1, 1, 1)
-bones/7/rotation = Quaternion(-0.57436, 0.366359, 0.11416, 0.72309)
-bones/7/scale = Vector3(1, 1, 1)
-bones/8/rotation = Quaternion(0.994898, 0, 0, -0.100888)
-bones/8/scale = Vector3(1, 1, 1)
-bones/9/rotation = Quaternion(-0.562863, 0.415678, 0.469839, 0.53819)
-bones/9/scale = Vector3(1, 1, 1)
-bones/11/rotation = Quaternion(-0.23655, -0.0321627, -0.149919, 0.959445)
-bones/13/rotation = Quaternion(0.709438, -0.0263007, 0.704213, -0.00952185)
-bones/13/scale = Vector3(1, 1, 1)
-bones/15/rotation = Quaternion(-0.000145374, 8.50136e-06, -0.7506, 0.660757)
-bones/15/scale = Vector3(1, 1, 1)
-bones/16/rotation = Quaternion(0.873921, 0, 0, -0.486068)
-bones/16/scale = Vector3(1, 1, 1)
-bones/17/rotation = Quaternion(0.348274, 0, 0, 0.937393)
-bones/18/scale = Vector3(1, 1, 1)
-bones/20/rotation = Quaternion(-0.595108, 0, 0, 0.803646)
-bones/21/rotation = Quaternion(-0.288007, 0, 0, 0.957628)
-bones/23/rotation = Quaternion(-0.709438, -0.0263007, 0.704213, 0.00952185)
-bones/23/scale = Vector3(1, 1, 1)
-bones/25/rotation = Quaternion(-0.000145374, -8.50136e-06, 0.7506, 0.660757)
-bones/25/scale = Vector3(1, 1, 1)
-bones/27/rotation = Quaternion(0.506084, 0.493841, 0.493841, 0.506084)
-bones/28/scale = Vector3(1, 1, 1)
-bones/29/scale = Vector3(1, 1, 1)
-bones/31/rotation = Quaternion(0.506084, -0.493841, -0.493841, 0.506084)
-bones/32/scale = Vector3(1, 1, 1)
-bones/33/scale = Vector3(1, 1, 1)
-
-[node name="JiggleboneEarL" type="Node3D" parent="Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.734886, 0.582703, -0.346986, -0.175446, 0.657564, 0.732686, 0.655104, -0.477563, 0.585468, 0.802746, 2.23373, -0.399008)
-top_level = true
-script = ExtResource("3_uxj4g")
-bone_name = "Ear.L"
-forward_axis = 1
-
-[node name="JiggleboneEarR" type="Node3D" parent="Armature/Skeleton3D" index="2"]
-transform = Transform3D(0.734886, -0.582703, 0.346986, 0.175446, 0.657564, 0.732685, -0.655104, -0.477563, 0.585468, -0.802746, 2.23373, -0.399008)
-top_level = true
-script = ExtResource("3_uxj4g")
-bone_name = "Ear.R"
-forward_axis = 1
-
-[node name="JiggleboneTail0" type="Node3D" parent="Armature/Skeleton3D" index="3"]
-transform = Transform3D(1, -1.13198e-09, -4.70485e-12, -5.45267e-10, -0.485328, 0.874332, -9.92007e-10, -0.874332, -0.485328, 0.00271952, 0.330068, -1.00128)
-top_level = true
-script = ExtResource("3_uxj4g")
-bone_name = "Tail0"
-stiffness = 0.2
-forward_axis = 1
-
-[node name="JiggleboneHair" type="Node3D" parent="Armature/Skeleton3D" index="4"]
-transform = Transform3D(1, -6.40234e-10, -6.11308e-12, -3.51873e-10, -0.557526, 0.830159, -5.34905e-10, -0.830159, -0.557526, 0.00271953, 1.09234, -0.898282)
-top_level = true
-script = ExtResource("3_uxj4g")
-bone_name = "Hair"
-stiffness = 0.5
-forward_axis = 1
-
-[node name="MotionInterpolator3D" type="Node3D" parent="Armature" index="1"]
-process_priority = 2
-process_physics_priority = 2
-script = ExtResource("3_1non6")
-target_path = NodePath("../..")
-position_smoothing = 0.5
-rotation_smoothing = 0.5
-
-[node name="AnimationPlayer" parent="." index="1"]
-root_motion_track = NodePath("Armature/Skeleton3D:Root")
-
-[node name="AnimationTree" type="AnimationTree" parent="." index="2"]
-unique_name_in_owner = true
-root_node = NodePath("%AnimationTree/..")
-root_motion_track = NodePath("Armature/Skeleton3D:Root")
+[node name="AnimationTree" parent="CharacterBase" index="0"]
+root_node = NodePath("%AnimationTree/../../Lizard")
 libraries = {
-"": SubResource("AnimationLibrary_nnnro")
+"": SubResource("AnimationLibrary_63ovd")
 }
-tree_root = ExtResource("11_rk02y")
-advance_expression_base_node = NodePath("..")
-anim_player = NodePath("../AnimationPlayer")
-parameters/Movement/IdleRun/Blend/blend_amount = 1.0
-parameters/Movement/IdleRun/RunTimeScale/scale = 1.0
+anim_player = NodePath("../../Lizard/AnimationPlayer")
 
-[node name="StateMachine" type="Node" parent="." index="3"]
-unique_name_in_owner = true
-script = ExtResource("4_3kmlb")
-this_path = NodePath("..")
+[node name="CollisionShape3D" parent="CharacterBase/AttackHitbox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.646558, 0.20696)
 
-[node name="Neutral" type="Node" parent="StateMachine" index="0"]
-script = ExtResource("5_p1ua8")
-
-[node name="Attacking" type="Node" parent="StateMachine" index="1"]
-script = ExtResource("6_gx5xf")
-
-[node name="Dodge" type="Node" parent="StateMachine" index="2"]
-script = ExtResource("7_dmn1x")
-
-[node name="CameraPivot" type="Node3D" parent="." index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-
-[node name="CameraRemoteTransform3D" type="RemoteTransform3D" parent="CameraPivot" index="0"]
-remote_path = NodePath("../CameraSpringArm")
-update_rotation = false
-
-[node name="CameraSpringArm" type="SpringArm3D" parent="CameraPivot" index="1"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+[node name="Lizard" parent="." instance=ExtResource("1_6sb3f")]
 top_level = true
-shape = SubResource("SphereShape3D_qgrsn")
-spring_length = 3.0
 
-[node name="CameraTarget" type="Node3D" parent="CameraPivot/CameraSpringArm" index="0"]
+[node name="Skeleton3D" parent="Lizard/Armature" index="0"]
+bones/2/rotation = Quaternion(-0.562863, -0.415679, -0.469839, 0.538189)
+bones/9/rotation = Quaternion(-0.562863, 0.415678, 0.469839, 0.53819)
+bones/12/rotation = Quaternion(0.709438, -0.0263007, 0.704213, -0.00952185)
+bones/14/rotation = Quaternion(-0.000145374, 8.50136e-06, -0.7506, 0.660757)
+bones/22/rotation = Quaternion(-0.709438, -0.0263007, 0.704213, 0.00952185)
+bones/24/rotation = Quaternion(-0.000145374, -8.50136e-06, 0.7506, 0.660757)
+bones/30/rotation = Quaternion(0.669935, -0.237638, -0.545114, -0.444485)
 
-[node name="Camera3D" type="Camera3D" parent="." index="5"]
-unique_name_in_owner = true
-top_level = true
-current = true
-
-[node name="MotionInterpolator3D" type="Node3D" parent="Camera3D" index="0"]
+[node name="MotionInterpolator3D" type="Node3D" parent="Lizard"]
 process_priority = 1
 script = ExtResource("3_1non6")
-target_path = NodePath("../../CameraPivot/CameraSpringArm/CameraTarget")
+target_path = NodePath("../../CharacterBase")
 position_smoothing = 0.5
 rotation_smoothing = 0.5
 
-[node name="MainCollisionShape" type="CollisionShape3D" parent="." index="6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CylinderShape3D_t45pp")
+[node name="ThirdPersonCamera" parent="." instance=ExtResource("4_xecjq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6368, 0)
 
-[node name="StairShapeCastUp" type="ShapeCast3D" parent="." index="7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-enabled = false
-shape = SubResource("CylinderShape3D_vtwtn")
-target_position = Vector3(0, 0, 0)
+[node name="MotionInterpolator3D" type="Node3D" parent="ThirdPersonCamera"]
+process_priority = 1
+script = ExtResource("3_1non6")
+target_path = NodePath("../../CharacterBase")
+position_keep_initial_offset = true
 
-[node name="StairShapeCastForward" type="ShapeCast3D" parent="." index="8"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-enabled = false
-shape = SubResource("CylinderShape3D_vtwtn")
-target_position = Vector3(0, 0, 0)
-
-[node name="StairShapeCastDown" type="ShapeCast3D" parent="." index="9"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-enabled = false
-shape = SubResource("CylinderShape3D_vtwtn")
-target_position = Vector3(0, 0, 0)
-
-[node name="AttackHitbox" type="Area3D" parent="." index="10"]
+[node name="StateMachine" type="Node" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.64384, 1.32194)
-collision_layer = 4
-collision_mask = 8
-monitoring = false
-monitorable = false
+script = ExtResource("4_3kmlb")
+this_path = NodePath("../CharacterBase")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AttackHitbox" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.646558, 0)
-shape = SubResource("BoxShape3D_yqmr2")
+[node name="Neutral" type="Node" parent="StateMachine"]
+script = ExtResource("5_p1ua8")
 
-[node name="RootMotionView" type="RootMotionView" parent="." index="11"]
-animation_path = NodePath("../AnimationTree")
+[node name="Attacking" type="Node" parent="StateMachine"]
+script = ExtResource("6_gx5xf")
+
+[node name="Dodge" type="Node" parent="StateMachine"]
+script = ExtResource("7_dmn1x")
+
+[editable path="CharacterBase"]
+[editable path="Lizard"]

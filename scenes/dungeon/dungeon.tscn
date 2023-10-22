@@ -1,4 +1,4 @@
-[gd_scene load_steps=526 format=3 uid="uid://c1tfyjjunbo0r"]
+[gd_scene load_steps=527 format=3 uid="uid://c1tfyjjunbo0r"]
 
 [ext_resource type="Script" path="res://addons/qodot/src/nodes/qodot_map.gd" id="1_6ycen"]
 [ext_resource type="NavigationMesh" uid="uid://dhxsuu3te6sel" path="res://scenes/dungeon/navigation_mesh.tres" id="1_7jj0a"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cmobdkpof5vi3" path="res://textures/wall1.png" id="4_h36t3"]
 [ext_resource type="Environment" uid="uid://f6hio4u76dfq" path="res://scenes/dungeon/environment.tres" id="5_e3vto"]
 [ext_resource type="PackedScene" uid="uid://cfdd0e8bosxn2" path="res://actors/torch/torch.tscn" id="7_wxrsp"]
+[ext_resource type="PackedScene" uid="uid://btimrbt2m63il" path="res://blend/skele/skele.blend" id="9_nb88k"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cbnr4"]
 texture_filter = 0
@@ -3363,3 +3364,6 @@ shape = SubResource("ConvexPolygonShape3D_0iol8")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("5_e3vto")
+
+[node name="Skele" parent="." instance=ExtResource("9_nb88k")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 9.95261, 0, 57.8546)

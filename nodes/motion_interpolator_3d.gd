@@ -23,6 +23,7 @@ enum ProcessFunc {
 @export var process_func: ProcessFunc = ProcessFunc.FRAME
 
 @export_group("Position", "position")
+@export var position_keep_initial_offset: bool = false
 @export_range(0.0, 1.0, 0.01) var position_smoothing: float = 0.0
 @export var position_x_mode: MotionMode = MotionMode.SMOOTH
 @export var position_y_mode: MotionMode = MotionMode.SMOOTH
@@ -32,6 +33,8 @@ enum ProcessFunc {
 @export_range(0.0, 1.0, 0.01) var rotation_smoothing: float = 0.0
 
 @onready var _target: Node3D = get_node(target_path)
+
+var _offset: Vector3
 
 func _ready():
 	if process_priority == 0:
@@ -43,6 +46,15 @@ func _ready():
 	if target_path:
 		_target = get_node(target_path)
 	
+	if position_keep_initial_offset:
+		if _target:
+			var parent := get_parent_node_3d()
+			if parent:
+				_offset = parent.global_position - _target.global_position
+			else:
+				push_error("Inital offset cannot be calculated: parent not valid.")
+		else:
+			push_error("Inital offset cannot be calculated: target not in tree.")
 
 func _process(delta:float):
 	if process_func == ProcessFunc.FRAME:
@@ -65,7 +77,7 @@ func _process_func(delta: float):
 	var rotation_factor = 1.0 - pow(rotation_smoothing, delta * 60.0)
 	
 	var stay_position := parent.global_position
-	var target_position := _target.global_position
+	var target_position := _target.global_position + _offset
 	var smooth_position: Vector3 = lerp(stay_position, target_position, position_factor)
 	var result_position := Vector3.ZERO
 	

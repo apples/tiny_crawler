@@ -1,0 +1,66 @@
+[gd_scene load_steps=6 format=3 uid="uid://23diikqy7ade"]
+
+[ext_resource type="Script" path="res://actors/character_base/character_base.gd" id="1_4b51f"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://ra1hql5wuxiu" path="res://actors/player/player_animation_tree.tres" id="11_iixn4"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_t45pp"]
+radius = 0.25
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vtwtn"]
+margin = 0.001
+height = 1.999
+radius = 0.249
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yqmr2"]
+size = Vector3(1.84962, 1.99988, 1.54626)
+
+[node name="CharacterBase" type="CharacterBody3D"]
+top_level = true
+collision_layer = 2
+floor_snap_length = 0.6
+script = ExtResource("1_4b51f")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+unique_name_in_owner = true
+root_motion_track = NodePath("Armature/Skeleton3D:Root")
+tree_root = ExtResource("11_iixn4")
+advance_expression_base_node = NodePath("..")
+parameters/Movement/IdleRun/Blend/blend_amount = 1.0
+parameters/Movement/IdleRun/RunTimeScale/scale = 1.0
+
+[node name="RootMotionView" type="RootMotionView" parent="AnimationTree"]
+animation_path = NodePath("..")
+
+[node name="MainCollisionShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_t45pp")
+
+[node name="StairShapeCastUp" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+enabled = false
+shape = SubResource("CylinderShape3D_vtwtn")
+target_position = Vector3(0, 0, 0)
+
+[node name="StairShapeCastForward" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+enabled = false
+shape = SubResource("CylinderShape3D_vtwtn")
+target_position = Vector3(0, 0, 0)
+
+[node name="StairShapeCastDown" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+enabled = false
+shape = SubResource("CylinderShape3D_vtwtn")
+target_position = Vector3(0, 0, 0)
+
+[node name="AttackHitbox" type="Area3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.64384, 1.32194)
+collision_layer = 4
+collision_mask = 8
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AttackHitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.646558, 0)
+shape = SubResource("BoxShape3D_yqmr2")

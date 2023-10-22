@@ -28,7 +28,7 @@ animation = &"idle"
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_6ks4p"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_xoo8p"]
-graph_offset = Vector2(-409.954, 31.318)
+graph_offset = Vector2(-401, 0)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_j7cnx")
 nodes/Animation/position = Vector2(-240, 100)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_tnd0r")
@@ -75,6 +75,6 @@ advance_mode = 2
 states/Actions/node = SubResource("AnimationNodeStateMachine_xmdex")
 states/Actions/position = Vector2(458, 176)
 states/Movement/node = SubResource("AnimationNodeStateMachine_q7jsv")
-states/Movement/position = Vector2(458, 70)
+states/Movement/position = Vector2(458, 71)
 transitions = ["Start", "Movement", SubResource("AnimationNodeStateMachineTransition_p15tj"), "Movement", "Actions", SubResource("AnimationNodeStateMachineTransition_pnov3"), "Actions", "Movement", SubResource("AnimationNodeStateMachineTransition_tqhvc")]
 graph_offset = Vector2(-51, -38)

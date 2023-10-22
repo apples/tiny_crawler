@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckedcces4hxsp"
-path="res://.godot/imported/liz_legs.png-eae85df7eb33bf167e2f732d080dcad8.ctex"
+uid="uid://nh1gyenk1osb"
+path="res://.godot/imported/liz_head.png-4aecd18e3fb5888e9092466a117f1b69.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://blend/textures/liz_legs.png"
-dest_files=["res://.godot/imported/liz_legs.png-eae85df7eb33bf167e2f732d080dcad8.ctex"]
+source_file="res://blend/lizard/textures/liz_head.png"
+dest_files=["res://.godot/imported/liz_head.png-4aecd18e3fb5888e9092466a117f1b69.ctex"]
 
 [params]
 

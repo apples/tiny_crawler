@@ -3,18 +3,18 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cjaobi3ouiohh"
-path="res://.godot/imported/lizard.blend-f0a03decc9170edf135a92f81eb73e9b.scn"
+uid="uid://btimrbt2m63il"
+path="res://.godot/imported/skele.blend-b657e542e27918b7b4006f750807e087.scn"
 
 [deps]
 
-source_file="res://blend/lizard.blend"
-dest_files=["res://.godot/imported/lizard.blend-f0a03decc9170edf135a92f81eb73e9b.scn"]
+source_file="res://blend/skele/skele.blend"
+dest_files=["res://.godot/imported/skele.blend-b657e542e27918b7b4006f750807e087.scn"]
 
 [params]
 
-nodes/root_type="CharacterBody3D"
-nodes/root_name="Lizard"
+nodes/root_type=""
+nodes/root_name="Skele"
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
 meshes/ensure_tangents=true
@@ -34,7 +34,7 @@ _subresources={
 "RESET": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": true,
-"save_to_file/path": "res://blend/animations/RESET.tres",
+"save_to_file/path": "res://blend/skele/animations/RESET.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -1833,7 +1833,7 @@ _subresources={
 "attack1": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": true,
-"save_to_file/path": "res://blend/animations/attack1.tres",
+"save_to_file/path": "res://blend/skele/animations/attack1.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -3632,7 +3632,7 @@ _subresources={
 "dodgeroll": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": true,
-"save_to_file/path": "res://blend/animations/dodgeroll.res",
+"save_to_file/path": "res://blend/skele/animations/dodgeroll.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -5431,8 +5431,8 @@ _subresources={
 "fall": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": true,
-"save_to_file/path": "res://blend/animations/fall.tres",
-"settings/loop_mode": 2,
+"save_to_file/path": "res://blend/skele/animations/fall.res",
+"settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",
@@ -7230,8 +7230,8 @@ _subresources={
 "idle": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": true,
-"save_to_file/path": "res://blend/animations/idle.tres",
-"settings/loop_mode": 1,
+"save_to_file/path": "res://blend/skele/animations/idle.res",
+"settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",
@@ -9029,8 +9029,8 @@ _subresources={
 "run": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": true,
-"save_to_file/path": "res://blend/animations/run.tres",
-"settings/loop_mode": 1,
+"save_to_file/path": "res://blend/skele/animations/run.res",
+"settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",
@@ -10827,7 +10827,7 @@ _subresources={
 }
 },
 "meshes": {
-"lizard-f0a03decc9170edf135a92f81eb73e9b_Plane_003": {
+"skele-b657e542e27918b7b4006f750807e087_Plane": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
@@ -10835,7 +10835,7 @@ _subresources={
 "lods/normal_split_angle": 25.0,
 "save_to_file/enabled": true,
 "save_to_file/make_streamable": "",
-"save_to_file/path": "res://blend/meshes/lizard.res"
+"save_to_file/path": ""
 }
 }
 }

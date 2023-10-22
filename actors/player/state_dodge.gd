@@ -17,7 +17,7 @@ func _exit_state():
 
 func handle_direction(delta: float):
 	var root_spd := 10.0 / (2.0/3.0)
-	print(root_spd)
+	#print("root_spd ", root_spd)
 	this.velocity.x = direction.x * root_spd
 	this.velocity.z = direction.z * root_spd
 
