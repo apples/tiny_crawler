@@ -15,6 +15,7 @@ update_rotation = false
 
 [node name="CameraSpringArm" type="SpringArm3D" parent="."]
 unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 top_level = true
 shape = SubResource("SphereShape3D_uxynb")
 spring_length = 3.0
@@ -23,7 +24,7 @@ spring_length = 3.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 3.49691e-07, 0, 1, 0, -3.49691e-07, 0, 1, 0, 0, 2.281)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -3.719)
 top_level = true
 current = true
 

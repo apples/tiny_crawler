@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bysbeksbr5xev"]
+[gd_scene load_steps=18 format=3 uid="uid://bysbeksbr5xev"]
 
 [ext_resource type="Script" path="res://actors/skele/skele.gd" id="1_0f6wd"]
 [ext_resource type="PackedScene" uid="uid://23diikqy7ade" path="res://actors/character_base/character_base.tscn" id="2_pv1av"]
@@ -14,8 +14,10 @@
 [ext_resource type="Script" path="res://actors/skele/state_idle.gd" id="12_0ydk3"]
 [ext_resource type="Script" path="res://actors/skele/state_chasing.gd" id="13_32k20"]
 [ext_resource type="Script" path="res://actors/skele/state_attacking.gd" id="14_5jvry"]
+[ext_resource type="PackedScene" uid="uid://b2mqxco6io0sq" path="res://components/visibility_area/visibility_area.tscn" id="15_4cpkf"]
+[ext_resource type="Script" path="res://actors/skele/state_searching.gd" id="15_doy4h"]
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_nxl7w"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_te5ws"]
 _data = {
 "RESET": ExtResource("3_5x43k"),
 "attack1": ExtResource("4_dew76"),
@@ -29,24 +31,46 @@ _data = {
 script = ExtResource("1_0f6wd")
 
 [node name="CharacterBase" parent="." instance=ExtResource("2_pv1av")]
+collision_layer = 8
 
 [node name="AnimationTree" parent="CharacterBase" index="0"]
 root_node = NodePath("%AnimationTree/../../Skele")
 libraries = {
-"": SubResource("AnimationLibrary_nxl7w")
+"": SubResource("AnimationLibrary_te5ws")
 }
 anim_player = NodePath("../../Skele/AnimationPlayer")
 
 [node name="Skele" parent="." instance=ExtResource("9_nnkms")]
 
 [node name="Skeleton3D" parent="Skele/Armature" index="0"]
-bones/2/rotation = Quaternion(-0.562863, -0.415679, -0.469839, 0.538189)
-bones/6/rotation = Quaternion(-0.562863, 0.415678, 0.469839, 0.53819)
-bones/9/rotation = Quaternion(0.709438, -0.0263007, 0.704213, -0.00952185)
-bones/11/rotation = Quaternion(-0.709438, -0.0263007, 0.704213, 0.00952185)
+bones/1/position = Vector3(0.00271953, 0.977648, 1.18874e-10)
+bones/1/rotation = Quaternion(0.000751901, -5.35342e-18, 3.82844e-17, 1)
+bones/2/rotation = Quaternion(-0.148604, -0.674885, -0.236725, 0.682941)
+bones/3/rotation = Quaternion(0.0511873, 0.00813503, -0.263011, 0.9634)
+bones/5/rotation = Quaternion(0.318903, -1.92001e-17, 6.55297e-17, 0.947787)
+bones/6/rotation = Quaternion(-0.14834, 0.674923, 0.237081, 0.682837)
+bones/7/rotation = Quaternion(0.0511769, -0.00813515, 0.262957, 0.963415)
+bones/9/rotation = Quaternion(0.537259, 0.51675, 0.554908, 0.369322)
+bones/10/rotation = Quaternion(-0.283245, 0.000689393, 0.779281, 0.55901)
+bones/11/rotation = Quaternion(-0.703025, 0.118703, 0.690563, -0.121608)
+bones/12/rotation = Quaternion(-0.0358088, -0.00122527, -0.0985196, 0.99449)
+bones/13/position = Vector3(0.39283, 1.67455, 0.198703)
+bones/13/rotation = Quaternion(0.29607, -0.0870689, 0.648978, 0.695406)
+bones/14/position = Vector3(-0.0154896, 0.390546, 0.936588)
+bones/15/position = Vector3(0.0823009, 0.350033, 0.193247)
+bones/15/rotation = Quaternion(0.0815208, 0.565375, -0.446368, 0.688811)
+bones/16/position = Vector3(1.8673e-05, -2.8773e-05, 2.21595e-05)
 bones/16/rotation = Quaternion(-0.00049231, 0.382148, 0.92388, 0.0202462)
+bones/17/position = Vector3(0.231109, 1.43335, -0.567281)
+bones/18/position = Vector3(-0.39283, 1.67442, 0.198997)
+bones/18/rotation = Quaternion(0.297229, 0.0881509, -0.648832, 0.694911)
+bones/19/position = Vector3(-3.7738e-06, -1.2326e-06, 3.09201e-07)
 bones/19/rotation = Quaternion(0.669935, -0.237638, -0.545114, -0.444485)
+bones/21/position = Vector3(-0.0823989, -0.00150529, 0.185424)
+bones/21/rotation = Quaternion(-0.0380573, -0.480261, 0.536883, 0.692574)
+bones/22/position = Vector3(-1.92897e-08, 3.31995e-07, 4.60302e-07)
 bones/22/rotation = Quaternion(0.00049231, 0.382148, 0.92388, -0.0202462)
+bones/23/position = Vector3(-0.231109, 1.43335, -0.567281)
 
 [node name="MotionInterpolator3D" type="Node3D" parent="Skele"]
 process_priority = 1
@@ -58,7 +82,7 @@ rotation_smoothing = 0.5
 [node name="StateMachine" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("11_cooj2")
-this_path = NodePath("../CharacterBase")
+character_path = NodePath("../CharacterBase")
 
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource("12_0ydk3")
@@ -69,9 +93,18 @@ script = ExtResource("13_32k20")
 [node name="Attacking" type="Node" parent="StateMachine"]
 script = ExtResource("14_5jvry")
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Searching" type="Node" parent="StateMachine"]
+script = ExtResource("15_doy4h")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="VisibilityArea" parent="." instance=ExtResource("15_4cpkf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+target_desired_distance = 2.0
+path_height_offset = 0.5
+debug_enabled = true
+
+[connection signal="process_done" from="CharacterBase" to="." method="_on_character_base_process_done"]
 
 [editable path="CharacterBase"]
 [editable path="Skele"]

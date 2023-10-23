@@ -15,7 +15,7 @@ func _exit_state():
 	print(this.global_position)
 	print("%s m" % (this.global_position - startpos).length())
 
-func handle_direction(delta: float):
+func update_velocity(delta: float, _default_update_velocity: Callable):
 	var root_spd := 10.0 / (2.0/3.0)
 	#print("root_spd ", root_spd)
 	this.velocity.x = direction.x * root_spd

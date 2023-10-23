@@ -1,4 +1,7 @@
+class_name CharacterBase
 extends CharacterBody3D
+
+signal process_done()
 
 @export var step_height := 0.6
 @export var min_step_height := 0.1
@@ -28,10 +31,10 @@ func _process(delta: float):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	var parent := get_parent()
-	if "handle_direction" in parent:
-		parent.handle_direction(delta)
+	if "update_velocity" in parent:
+		parent.update_velocity(delta, default_update_velocity)
 	#print("vel ", velocity)
-	if velocity:
+	if velocity.x or velocity.z:
 		global_rotation.y = -Vector2(velocity.x, velocity.z).angle() + PI/2
 	
 	var current_velocity_blend: float = animation_tree["parameters/Movement/IdleRun/Blend/blend_amount"]
@@ -43,8 +46,10 @@ func _process(delta: float):
 	animation_tree["parameters/Movement/IdleRun/RunTimeScale/scale"] = move_speed_multiplier
 	
 	move_and_slide_with_stairs(delta)
+	
+	process_done.emit()
 
-func default_handle_direction(_delta: float):
+func default_update_velocity(_delta: float):
 	if not is_on_floor():
 		return
 	if move_direction:
@@ -64,6 +69,14 @@ func move_and_slide_with_stairs(delta: float):
 		return
 	
 	move_and_slide()
+	
+	for i in range(get_slide_collision_count()):
+		if not abs(get_slide_collision(i).get_normal().dot(Vector3.UP)) < 0.001:
+			continue
+		motion = get_slide_collision(i).get_remainder()
+		if motion.length() > 0.001:
+			_try_stair_step(motion + motion.normalized() * safe_margin * 2, true)
+			break
 
 func _try_stair_step(motion: Vector3, allow_ramps := false):
 	if not is_on_floor():
@@ -86,23 +99,25 @@ func _try_stair_step(motion: Vector3, allow_ramps := false):
 			return false
 	
 	stair_shape_cast_forward.position = stair_shape_cast_up.position + stair_shape_cast_up.target_position
-	stair_shape_cast_forward.target_position = basis.inverse() * motion
+	print(stair_shape_cast_forward.position)
+	stair_shape_cast_forward.target_position = basis.inverse() * (motion * Vector3(1, 0, 1))
 	stair_shape_cast_forward.force_shapecast_update()
 	
+	var oldmot = motion
 	if stair_shape_cast_forward.get_collision_count() > 0:
 		# we might be sliding along a wall
 		#var travel := motion * stair_shape_cast_forward.get_closest_collision_safe_fraction()
 		#motion = Plane(stair_shape_cast_forward.get_collision_normal(0)).project(motion)
 		motion = motion.slide(stair_shape_cast_forward.get_collision_normal(0))
 		
-		stair_shape_cast_forward.target_position = basis.inverse() * motion
+		stair_shape_cast_forward.target_position = basis.inverse() * (motion * Vector3(1, 0, 1))
 		stair_shape_cast_forward.force_shapecast_update()
 	
 	if stair_shape_cast_forward.get_collision_count() != 0:
 		return false
 	
 	stair_shape_cast_down.position = stair_shape_cast_forward.position + stair_shape_cast_forward.target_position
-	stair_shape_cast_down.target_position = Vector3.DOWN * step_height * 0.95
+	stair_shape_cast_down.target_position = Vector3.DOWN * step_height
 	
 	stair_shape_cast_down.force_shapecast_update()
 	
@@ -114,15 +129,27 @@ func _try_stair_step(motion: Vector3, allow_ramps := false):
 		# landed on slope
 		return false
 	
-	var dist := stair_shape_cast_down.position + (stair_shape_cast_down.get_collision_point(0) - stair_shape_cast_down.global_position).project(stair_shape_cast_down.target_position.normalized())
+	var frac := stair_shape_cast_down.get_closest_collision_safe_fraction()
+	var pos := stair_shape_cast_down.position + stair_shape_cast_down.target_position * frac
+	var dist = pos + Vector3.DOWN * (stair_shape_cast_down.shape as CylinderShape3D).height / 2.0
 	
 	if dist.y < min_step_height:
 		# too small to be a step
 		return false
 	
+	print("--==--")
+	print("mot ", motion, " originally ", oldmot)
+	print("sta ", stair_shape_cast_up.position)
+	print(" -> ", stair_shape_cast_forward.position)
+	print(" -> ", stair_shape_cast_down.position)
+	print(" -> ", pos)
+	print("old ", position)
+	print("  + ", basis * dist, " : ", dist)
 	position += basis * dist
-	print("stairs DETECTED ", stair_shape_cast_down.get_collision_point(0),
-		" ", dist)
+	print("new ", position)
+	print(".")
+	velocity.y = 0.0
+	#print("stairs DETECTED ", stair_shape_cast_down.get_collision_point(0), " ", dist)
 	return true
 
 func _on_sword_hitbox_body_entered(body: Node3D) -> void:

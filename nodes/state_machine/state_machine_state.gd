@@ -7,6 +7,9 @@ var state_machine: StateMachine
 var this: Node:
 	get: return state_machine.this
 
+var character: CharacterBase:
+	get: return state_machine.character
+
 var state_parameter
 
 func _enter_state(_param):

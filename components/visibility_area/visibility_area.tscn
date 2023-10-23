@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2mqxco6io0sq"]
+
+[ext_resource type="Script" path="res://components/visibility_area/visibility_area.gd" id="1_kqmqc"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qxa2x"]
+radius = 40.0
+
+[node name="VisibilityArea" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_kqmqc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_qxa2x")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+collision_mask = 3

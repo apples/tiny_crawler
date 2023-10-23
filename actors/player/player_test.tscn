@@ -34,3 +34,6 @@ use_collision = true
 size = Vector3(10.2741, 1, 8.45682)
 
 [node name="Player" parent="." instance=ExtResource("1_7ekcb")]
+properties = {
+"angle": "45"
+}

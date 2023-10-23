@@ -8,5 +8,5 @@ func _input(event):
 	if event.is_action_pressed("dodge"):
 		goto("Dodge")
 
-func handle_direction(delta: float):
-	this.default_handle_direction(delta)
+func update_velocity(delta: float, default_update_velocity: Callable):
+	default_update_velocity.call(delta)

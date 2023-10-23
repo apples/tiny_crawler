@@ -104,9 +104,14 @@ zoom_out={
 
 3d_physics/layer_1="terrain"
 3d_physics/layer_2="player"
-3d_physics/layer_3="player_sttack_hitbox"
+3d_physics/layer_3="player_attack_hitbox"
 3d_physics/layer_4="monster"
 3d_physics/layer_5="monster_attack_hitbox"
+
+[navigation]
+
+3d/default_cell_size=0.1
+3d/default_edge_connection_margin=0.1
 
 [physics]
 

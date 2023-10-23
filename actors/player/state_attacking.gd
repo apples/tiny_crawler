@@ -8,7 +8,7 @@ func _enter_state(_param):
 	this.animation_tree["parameters/playback"].travel("Actions")
 	this.animation_tree["parameters/Actions/playback"].travel("attack1")
 
-func handle_direction(delta: float):
+func update_velocity(delta: float, _default_update_velocity: Callable):
 	this.velocity.x = direction.x * move_speed_penalty
 	this.velocity.z = direction.z * move_speed_penalty
 

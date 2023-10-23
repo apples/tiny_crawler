@@ -15,9 +15,9 @@ var pitch: float:
 
 var yaw: float:
 	get:
-		return camera_spring_arm.rotation.y
+		return camera_spring_arm.rotation.y - PI
 	set(v):
-		camera_spring_arm.rotation.y = v
+		camera_spring_arm.rotation.y = v + PI
 
 var roll: float:
 	get:
