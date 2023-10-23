@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="QodotFGDPointClass" load_steps=3 format=3 uid="uid://df5ik2y2ceewi"]
 
-[ext_resource type="PackedScene" uid="uid://cfxymdndtnfee" path="res://actors/player/player.tscn" id="1_k6qyr"]
+[ext_resource type="PackedScene" uid="uid://bysbeksbr5xev" path="res://actors/skele/skele.tscn" id="1_y2ina"]
 [ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" id="2_2uimh"]
 
 [resource]
 script = ExtResource("2_2uimh")
-scene_file = ExtResource("1_k6qyr")
-classname = "player_spawn"
+scene_file = ExtResource("1_y2ina")
+classname = "skele"
 description = ""
 qodot_internal = false
 base_classes = Array[Resource]([])

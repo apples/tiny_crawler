@@ -9,12 +9,12 @@
 [ext_resource type="PackedScene" uid="uid://oco5jpcxv3xc" path="res://components/third_person_camera/third_person_camera.tscn" id="4_xecjq"]
 [ext_resource type="Script" path="res://actors/player/state_neutral.gd" id="5_p1ua8"]
 [ext_resource type="Animation" uid="uid://bsj7u7na3cdy7" path="res://blend/lizard/animations/attack1.tres" id="5_xom3j"]
-[ext_resource type="Script" path="res://actors/player/state_attacking.gd" id="6_gx5xf"]
 [ext_resource type="Animation" uid="uid://b7abl7kr8w8fj" path="res://blend/lizard/animations/fall.tres" id="6_q3uvi"]
 [ext_resource type="Script" path="res://actors/player/state_dodge.gd" id="7_dmn1x"]
 [ext_resource type="Animation" uid="uid://bpdwjnnfsfu3b" path="res://blend/lizard/animations/idle.tres" id="7_rjd7l"]
 [ext_resource type="Animation" uid="uid://cb5d5d1oo0hsg" path="res://blend/lizard/animations/dodgeroll.res" id="7_un7st"]
 [ext_resource type="Animation" uid="uid://lbd2mhveumo1" path="res://blend/lizard/animations/run.tres" id="8_f7tnq"]
+[ext_resource type="Script" path="res://actors/skele/state_attacking.gd" id="14_nwa66"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_63ovd"]
 _data = {
@@ -45,13 +45,37 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.646558, 0.20696)
 top_level = true
 
 [node name="Skeleton3D" parent="Lizard/Armature" index="0"]
-bones/2/rotation = Quaternion(-0.562863, -0.415679, -0.469839, 0.538189)
-bones/9/rotation = Quaternion(-0.562863, 0.415678, 0.469839, 0.53819)
-bones/12/rotation = Quaternion(0.709438, -0.0263007, 0.704213, -0.00952185)
+bones/1/position = Vector3(0.00271953, 0.977648, 1.18874e-10)
+bones/1/rotation = Quaternion(0.00120791, -5.35346e-18, 3.82847e-17, 0.999999)
+bones/2/rotation = Quaternion(-0.149879, -0.674785, -0.2356, 0.68315)
+bones/3/rotation = Quaternion(0.0514368, 0.00813195, -0.264293, 0.963035)
+bones/4/rotation = Quaternion(-0.23655, 0.0321627, 0.149919, 0.959445)
+bones/5/rotation = Quaternion(0.318794, -1.92001e-17, 6.55297e-17, 0.947824)
+bones/9/rotation = Quaternion(-0.149402, 0.674855, 0.236245, 0.682963)
+bones/10/rotation = Quaternion(0.0514202, -0.00813215, 0.264207, 0.96306)
+bones/12/rotation = Quaternion(0.53685, 0.517102, 0.554901, 0.369435)
+bones/13/rotation = Quaternion(-0.28316, 0.000689872, 0.779048, 0.559378)
 bones/14/rotation = Quaternion(-0.000145374, 8.50136e-06, -0.7506, 0.660757)
-bones/22/rotation = Quaternion(-0.709438, -0.0263007, 0.704213, 0.00952185)
+bones/22/rotation = Quaternion(-0.702769, 0.120171, 0.690444, -0.122319)
+bones/23/rotation = Quaternion(-0.0364969, -0.00122501, -0.100413, 0.994275)
 bones/24/rotation = Quaternion(-0.000145374, -8.50136e-06, 0.7506, 0.660757)
+bones/25/position = Vector3(0.39283, 1.67455, 0.198569)
+bones/25/rotation = Quaternion(0.295492, -0.0865294, 0.64905, 0.695652)
+bones/26/position = Vector3(-0.0154896, 0.390546, 0.936588)
+bones/27/position = Vector3(0.0825154, 0.349818, 0.193247)
+bones/27/rotation = Quaternion(0.0815209, 0.565375, -0.446368, 0.688811)
+bones/28/position = Vector3(0.231109, 1.43335, -0.567281)
+bones/28/rotation = Quaternion(-0.707056, 0.0084789, -0.0084789, 0.707056)
+bones/29/position = Vector3(-0.39283, 1.67431, 0.199104)
+bones/29/rotation = Quaternion(0.297602, 0.0884997, -0.648785, 0.694751)
+bones/30/position = Vector3(-3.7738e-06, -1.2326e-06, 3.09201e-07)
 bones/30/rotation = Quaternion(0.669935, -0.237638, -0.545114, -0.444485)
+bones/30/scale = Vector3(1, 1, 1)
+bones/31/position = Vector3(-0.100925, 0.390546, 0.621142)
+bones/32/position = Vector3(-0.0826939, -0.00129073, 0.185424)
+bones/32/rotation = Quaternion(-0.0380573, -0.480261, 0.536883, 0.692574)
+bones/33/position = Vector3(-0.231109, 1.43335, -0.567281)
+bones/33/rotation = Quaternion(-0.707056, -0.0084789, 0.0084789, 0.707056)
 
 [node name="MotionInterpolator3D" type="Node3D" parent="Lizard"]
 process_priority = 1
@@ -78,7 +102,7 @@ this_path = NodePath("../CharacterBase")
 script = ExtResource("5_p1ua8")
 
 [node name="Attacking" type="Node" parent="StateMachine"]
-script = ExtResource("6_gx5xf")
+script = ExtResource("14_nwa66")
 
 [node name="Dodge" type="Node" parent="StateMachine"]
 script = ExtResource("7_dmn1x")

@@ -4795,3 +4795,15 @@
 ( -228 814 80 ) ( -228 686 0 ) ( -228 686 80 ) wall1 -32 0 0 1 1
 }
 }
+// entity 26
+{
+"classname" "skele"
+"origin" "929 142 0"
+"angle" "270"
+}
+// entity 27
+{
+"classname" "skele"
+"origin" "580 -29 0"
+"angle" "180"
+}

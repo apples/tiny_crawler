@@ -1,0 +1,77 @@
+[gd_scene load_steps=16 format=3 uid="uid://bysbeksbr5xev"]
+
+[ext_resource type="Script" path="res://actors/skele/skele.gd" id="1_0f6wd"]
+[ext_resource type="PackedScene" uid="uid://23diikqy7ade" path="res://actors/character_base/character_base.tscn" id="2_pv1av"]
+[ext_resource type="Animation" uid="uid://cvev2uurxw5qr" path="res://blend/skele/animations/RESET.res" id="3_5x43k"]
+[ext_resource type="Animation" uid="uid://cnwviwvy1rnx6" path="res://blend/skele/animations/attack1.res" id="4_dew76"]
+[ext_resource type="Animation" uid="uid://v3ggxv81w7bx" path="res://blend/skele/animations/dodgeroll.res" id="5_1af4u"]
+[ext_resource type="Animation" uid="uid://bn1o3rs3j34v7" path="res://blend/skele/animations/fall.res" id="6_kj5x4"]
+[ext_resource type="Animation" uid="uid://csf6rvr224u3f" path="res://blend/skele/animations/idle.res" id="7_3uksl"]
+[ext_resource type="Animation" uid="uid://wq1aeqarjeox" path="res://blend/skele/animations/run.res" id="8_pgjta"]
+[ext_resource type="PackedScene" uid="uid://btimrbt2m63il" path="res://blend/skele/skele.blend" id="9_nnkms"]
+[ext_resource type="Script" path="res://nodes/motion_interpolator_3d.gd" id="10_1fgty"]
+[ext_resource type="Script" path="res://nodes/state_machine/state_machine.gd" id="11_cooj2"]
+[ext_resource type="Script" path="res://actors/skele/state_idle.gd" id="12_0ydk3"]
+[ext_resource type="Script" path="res://actors/skele/state_chasing.gd" id="13_32k20"]
+[ext_resource type="Script" path="res://actors/skele/state_attacking.gd" id="14_5jvry"]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nxl7w"]
+_data = {
+"RESET": ExtResource("3_5x43k"),
+"attack1": ExtResource("4_dew76"),
+"dodgeroll": ExtResource("5_1af4u"),
+"fall": ExtResource("6_kj5x4"),
+"idle": ExtResource("7_3uksl"),
+"run": ExtResource("8_pgjta")
+}
+
+[node name="Skele" type="Node3D"]
+script = ExtResource("1_0f6wd")
+
+[node name="CharacterBase" parent="." instance=ExtResource("2_pv1av")]
+
+[node name="AnimationTree" parent="CharacterBase" index="0"]
+root_node = NodePath("%AnimationTree/../../Skele")
+libraries = {
+"": SubResource("AnimationLibrary_nxl7w")
+}
+anim_player = NodePath("../../Skele/AnimationPlayer")
+
+[node name="Skele" parent="." instance=ExtResource("9_nnkms")]
+
+[node name="Skeleton3D" parent="Skele/Armature" index="0"]
+bones/2/rotation = Quaternion(-0.562863, -0.415679, -0.469839, 0.538189)
+bones/6/rotation = Quaternion(-0.562863, 0.415678, 0.469839, 0.53819)
+bones/9/rotation = Quaternion(0.709438, -0.0263007, 0.704213, -0.00952185)
+bones/11/rotation = Quaternion(-0.709438, -0.0263007, 0.704213, 0.00952185)
+bones/16/rotation = Quaternion(-0.00049231, 0.382148, 0.92388, 0.0202462)
+bones/19/rotation = Quaternion(0.669935, -0.237638, -0.545114, -0.444485)
+bones/22/rotation = Quaternion(0.00049231, 0.382148, 0.92388, -0.0202462)
+
+[node name="MotionInterpolator3D" type="Node3D" parent="Skele"]
+process_priority = 1
+script = ExtResource("10_1fgty")
+target_path = NodePath("../../CharacterBase")
+position_smoothing = 0.5
+rotation_smoothing = 0.5
+
+[node name="StateMachine" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("11_cooj2")
+this_path = NodePath("../CharacterBase")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("12_0ydk3")
+
+[node name="Chasing" type="Node" parent="StateMachine"]
+script = ExtResource("13_32k20")
+
+[node name="Attacking" type="Node" parent="StateMachine"]
+script = ExtResource("14_5jvry")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+
+[editable path="CharacterBase"]
+[editable path="Skele"]
