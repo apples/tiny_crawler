@@ -5,6 +5,7 @@ signal process_done()
 
 @export var step_height := 0.6
 @export var min_step_height := 0.1
+@export var min_forward_step := 0.05
 @export var mouse_sensitivity := 0.01
 @export var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -74,8 +75,8 @@ func move_and_slide_with_stairs(delta: float):
 		if not abs(get_slide_collision(i).get_normal().dot(Vector3.UP)) < 0.001:
 			continue
 		motion = get_slide_collision(i).get_remainder()
-		if motion.length() > 0.001:
-			_try_stair_step(motion + motion.normalized() * safe_margin * 2, true)
+		if motion.x or motion.z:
+			_try_stair_step(motion, true)
 			break
 
 func _try_stair_step(motion: Vector3, allow_ramps := false):
@@ -98,9 +99,12 @@ func _try_stair_step(motion: Vector3, allow_ramps := false):
 				stair_shape_cast_up.get_collision_normal(i).dot(Vector3.UP))
 			return false
 	
+	var forward_step_motion := motion * Vector3(1, 0, 1)
+	if forward_step_motion.length() < min_forward_step:
+		forward_step_motion = forward_step_motion.normalized() * min_forward_step
+	
 	stair_shape_cast_forward.position = stair_shape_cast_up.position + stair_shape_cast_up.target_position
-	print(stair_shape_cast_forward.position)
-	stair_shape_cast_forward.target_position = basis.inverse() * (motion * Vector3(1, 0, 1))
+	stair_shape_cast_forward.target_position = basis.inverse() * forward_step_motion
 	stair_shape_cast_forward.force_shapecast_update()
 	
 	var oldmot = motion
@@ -108,7 +112,10 @@ func _try_stair_step(motion: Vector3, allow_ramps := false):
 		# we might be sliding along a wall
 		#var travel := motion * stair_shape_cast_forward.get_closest_collision_safe_fraction()
 		#motion = Plane(stair_shape_cast_forward.get_collision_normal(0)).project(motion)
-		motion = motion.slide(stair_shape_cast_forward.get_collision_normal(0))
+		forward_step_motion = forward_step_motion.slide(stair_shape_cast_forward.get_collision_normal(0))
+		
+		if forward_step_motion.length() < min_forward_step:
+			forward_step_motion = forward_step_motion.normalized() * min_forward_step
 		
 		stair_shape_cast_forward.target_position = basis.inverse() * (motion * Vector3(1, 0, 1))
 		stair_shape_cast_forward.force_shapecast_update()
@@ -129,25 +136,27 @@ func _try_stair_step(motion: Vector3, allow_ramps := false):
 		# landed on slope
 		return false
 	
-	var frac := stair_shape_cast_down.get_closest_collision_safe_fraction()
-	var pos := stair_shape_cast_down.position + stair_shape_cast_down.target_position * frac
-	var dist = pos + Vector3.DOWN * (stair_shape_cast_down.shape as CylinderShape3D).height / 2.0
+	var hit_pos := stair_shape_cast_down.to_local(stair_shape_cast_down.get_collision_point(0))
+	var pos := stair_shape_cast_down.position + hit_pos.project(stair_shape_cast_down.target_position.normalized())
+	var dist := pos + Vector3.UP * safe_margin
 	
 	if dist.y < min_step_height:
 		# too small to be a step
 		return false
 	
-	print("--==--")
-	print("mot ", motion, " originally ", oldmot)
-	print("sta ", stair_shape_cast_up.position)
-	print(" -> ", stair_shape_cast_forward.position)
-	print(" -> ", stair_shape_cast_down.position)
-	print(" -> ", pos)
-	print("old ", position)
-	print("  + ", basis * dist, " : ", dist)
+	#print("--==--")
+	#print("mot ", motion, " originally ", oldmot)
+	#print("fwd ", forward_step_motion)
+	#print("sta ", stair_shape_cast_up.position)
+	#print(" -> ", stair_shape_cast_forward.position)
+	#print(" -> ", stair_shape_cast_down.position)
+	#print(" -> ", pos, " <", frac, ">")
+	#print("hit ", stair_shape_cast_down.get_collision_point(0))
+	#print("old ", position)
+	#print("  + ", basis * dist, " : ", dist)
 	position += basis * dist
-	print("new ", position)
-	print(".")
+	#print("new ", position)
+	#print(".")
 	velocity.y = 0.0
 	#print("stairs DETECTED ", stair_shape_cast_down.get_collision_point(0), " ", dist)
 	return true

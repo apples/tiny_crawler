@@ -17,7 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://b2mqxco6io0sq" path="res://components/visibility_area/visibility_area.tscn" id="15_4cpkf"]
 [ext_resource type="Script" path="res://actors/skele/state_searching.gd" id="15_doy4h"]
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_te5ws"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nxl7w"]
 _data = {
 "RESET": ExtResource("3_5x43k"),
 "attack1": ExtResource("4_dew76"),
@@ -36,7 +36,7 @@ collision_layer = 8
 [node name="AnimationTree" parent="CharacterBase" index="0"]
 root_node = NodePath("%AnimationTree/../../Skele")
 libraries = {
-"": SubResource("AnimationLibrary_te5ws")
+"": SubResource("AnimationLibrary_nxl7w")
 }
 anim_player = NodePath("../../Skele/AnimationPlayer")
 
@@ -103,6 +103,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 target_desired_distance = 2.0
 path_height_offset = 0.5
 debug_enabled = true
+debug_use_custom = true
+debug_path_custom_color = Color(1, 0, 1, 1)
 
 [connection signal="process_done" from="CharacterBase" to="." method="_on_character_base_process_done"]
 

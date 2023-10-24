@@ -23,11 +23,3 @@ func _physics_process(delta: float) -> void:
 
 func update_velocity(delta: float, default_update_velocity: Callable):
 	default_update_velocity.call(delta)
-
-func _debug_draw_path():
-	return
-	var nav := this.navigation_agent as NavigationAgent3D
-	var lv := character.global_position
-	for v in nav.get_current_navigation_path():
-		DebugDraw3D.draw_line(lv, v, Color(1, 1, 0))
-		DebugDraw3D.draw_sphere(v, nav.radius, Color(1, 1, 0))
