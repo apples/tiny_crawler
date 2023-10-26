@@ -7,7 +7,7 @@ var last_root_motion: Vector3
 func _enter_state(_param):
 	startpos = this.global_position
 	last_root_motion = Vector3.ZERO
-	direction = this.aim_direction
+	direction = character.move_direction if character.move_direction else this.aim_direction
 	this.animation_tree["parameters/playback"].travel("Actions")
 	this.animation_tree["parameters/Actions/playback"].travel("dodgeroll")
 

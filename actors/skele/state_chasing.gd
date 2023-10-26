@@ -15,6 +15,7 @@ func _physics_process(delta: float) -> void:
 	if nav.is_navigation_finished():
 		print("chase done")
 		character.move_direction = Vector3.ZERO
+		goto("Attacking")
 		return
 	
 	var next_pos := nav.get_next_path_position()

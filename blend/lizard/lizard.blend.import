@@ -10825,6 +10825,15 @@ _subresources={
 "slice_99/start_frame": 0,
 "slices/amount": null
 }
+},
+"nodes": {
+"PATH:AnimationPlayer": {
+"import/skip_import": true
+},
+"PATH:Armature/Skeleton3D": {
+"retarget/bone_map": Resource("res://blend/humanoid_lib/bone_map.tres"),
+"retarget/rest_fixer/normalize_position_tracks": false
+}
 }
 }
 gltf/embedded_image_handling=1

@@ -1,13 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://bysbeksbr5xev"]
+[gd_scene load_steps=14 format=3 uid="uid://bysbeksbr5xev"]
 
 [ext_resource type="Script" path="res://actors/skele/skele.gd" id="1_0f6wd"]
 [ext_resource type="PackedScene" uid="uid://23diikqy7ade" path="res://actors/character_base/character_base.tscn" id="2_pv1av"]
-[ext_resource type="Animation" uid="uid://cvev2uurxw5qr" path="res://blend/skele/animations/RESET.res" id="3_5x43k"]
-[ext_resource type="Animation" uid="uid://cnwviwvy1rnx6" path="res://blend/skele/animations/attack1.res" id="4_dew76"]
-[ext_resource type="Animation" uid="uid://v3ggxv81w7bx" path="res://blend/skele/animations/dodgeroll.res" id="5_1af4u"]
-[ext_resource type="Animation" uid="uid://bn1o3rs3j34v7" path="res://blend/skele/animations/fall.res" id="6_kj5x4"]
-[ext_resource type="Animation" uid="uid://csf6rvr224u3f" path="res://blend/skele/animations/idle.res" id="7_3uksl"]
-[ext_resource type="Animation" uid="uid://wq1aeqarjeox" path="res://blend/skele/animations/run.res" id="8_pgjta"]
+[ext_resource type="AnimationLibrary" uid="uid://baxx1u8lp2y2q" path="res://blend/humanoid_lib/humanoid.blend" id="3_6kseu"]
 [ext_resource type="PackedScene" uid="uid://btimrbt2m63il" path="res://blend/skele/skele.blend" id="9_nnkms"]
 [ext_resource type="Script" path="res://nodes/motion_interpolator_3d.gd" id="10_1fgty"]
 [ext_resource type="Script" path="res://nodes/state_machine/state_machine.gd" id="11_cooj2"]
@@ -17,14 +12,24 @@
 [ext_resource type="PackedScene" uid="uid://b2mqxco6io0sq" path="res://components/visibility_area/visibility_area.tscn" id="15_4cpkf"]
 [ext_resource type="Script" path="res://actors/skele/state_searching.gd" id="15_doy4h"]
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_nxl7w"]
+[sub_resource type="Animation" id="Animation_8jmwy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../CharacterBase/AttackHitbox:monitoring")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2dgtk"]
 _data = {
-"RESET": ExtResource("3_5x43k"),
-"attack1": ExtResource("4_dew76"),
-"dodgeroll": ExtResource("5_1af4u"),
-"fall": ExtResource("6_kj5x4"),
-"idle": ExtResource("7_3uksl"),
-"run": ExtResource("8_pgjta")
+"RESET": SubResource("Animation_8jmwy")
 }
 
 [node name="Skele" type="Node3D"]
@@ -32,45 +37,63 @@ script = ExtResource("1_0f6wd")
 
 [node name="CharacterBase" parent="." instance=ExtResource("2_pv1av")]
 collision_layer = 8
+base_move_speed_multiplier = 1.5
 
 [node name="AnimationTree" parent="CharacterBase" index="0"]
 root_node = NodePath("%AnimationTree/../../Skele")
+root_motion_track = NodePath("%GeneralSkeleton:Root")
 libraries = {
-"": SubResource("AnimationLibrary_nxl7w")
+"": SubResource("AnimationLibrary_2dgtk"),
+"humanoid": ExtResource("3_6kseu")
 }
 anim_player = NodePath("../../Skele/AnimationPlayer")
 
+[node name="AttackHitbox" parent="CharacterBase" index="5"]
+collision_layer = 16
+collision_mask = 2
+
 [node name="Skele" parent="." instance=ExtResource("9_nnkms")]
 
-[node name="Skeleton3D" parent="Skele/Armature" index="0"]
-bones/1/position = Vector3(0.00271953, 0.977648, 1.18874e-10)
-bones/1/rotation = Quaternion(0.000751901, -5.35342e-18, 3.82844e-17, 1)
-bones/2/rotation = Quaternion(-0.148604, -0.674885, -0.236725, 0.682941)
-bones/3/rotation = Quaternion(0.0511873, 0.00813503, -0.263011, 0.9634)
-bones/5/rotation = Quaternion(0.318903, -1.92001e-17, 6.55297e-17, 0.947787)
-bones/6/rotation = Quaternion(-0.14834, 0.674923, 0.237081, 0.682837)
-bones/7/rotation = Quaternion(0.0511769, -0.00813515, 0.262957, 0.963415)
-bones/9/rotation = Quaternion(0.537259, 0.51675, 0.554908, 0.369322)
-bones/10/rotation = Quaternion(-0.283245, 0.000689393, 0.779281, 0.55901)
-bones/11/rotation = Quaternion(-0.703025, 0.118703, 0.690563, -0.121608)
-bones/12/rotation = Quaternion(-0.0358088, -0.00122527, -0.0985196, 0.99449)
-bones/13/position = Vector3(0.39283, 1.67455, 0.198703)
-bones/13/rotation = Quaternion(0.29607, -0.0870689, 0.648978, 0.695406)
-bones/14/position = Vector3(-0.0154896, 0.390546, 0.936588)
-bones/15/position = Vector3(0.0823009, 0.350033, 0.193247)
-bones/15/rotation = Quaternion(0.0815208, 0.565375, -0.446368, 0.688811)
-bones/16/position = Vector3(1.8673e-05, -2.8773e-05, 2.21595e-05)
-bones/16/rotation = Quaternion(-0.00049231, 0.382148, 0.92388, 0.0202462)
-bones/17/position = Vector3(0.231109, 1.43335, -0.567281)
-bones/18/position = Vector3(-0.39283, 1.67442, 0.198997)
-bones/18/rotation = Quaternion(0.297229, 0.0881509, -0.648832, 0.694911)
-bones/19/position = Vector3(-3.7738e-06, -1.2326e-06, 3.09201e-07)
-bones/19/rotation = Quaternion(0.669935, -0.237638, -0.545114, -0.444485)
-bones/21/position = Vector3(-0.0823989, -0.00150529, 0.185424)
-bones/21/rotation = Quaternion(-0.0380573, -0.480261, 0.536883, 0.692574)
-bones/22/position = Vector3(-1.92897e-08, 3.31995e-07, 4.60302e-07)
-bones/22/rotation = Quaternion(0.00049231, 0.382148, 0.92388, -0.0202462)
-bones/23/position = Vector3(-0.231109, 1.43335, -0.567281)
+[node name="GeneralSkeleton" parent="Skele/Armature" index="0"]
+bones/1/position = Vector3(0.00225623, 0.811098, 9.86231e-11)
+bones/1/rotation = Quaternion(0.02726, -6.73059e-18, 3.80706e-17, 0.999628)
+bones/2/rotation = Quaternion(0.212307, 0.680248, -0.129729, 0.689463)
+bones/3/rotation = Quaternion(0.173237, -0.680031, 0.256261, 0.664738)
+bones/4/rotation = Quaternion(-3.1665e-08, 0.707107, -3.1665e-08, 0.707107)
+bones/5/rotation = Quaternion(0.305983, -1.08912e-17, 7.0011e-17, 0.952037)
+bones/6/rotation = Quaternion(0.243592, -0.669728, 0.108471, 0.693081)
+bones/7/rotation = Quaternion(0.17757, 0.678416, -0.262671, 0.66274)
+bones/9/rotation = Quaternion(-0.0415999, 0.652918, 0.744686, -0.131948)
+bones/10/rotation = Quaternion(0.264684, 0.628197, -0.731636, -0.00435787)
+bones/11/rotation = Quaternion(0.003918, 0.30197, 0.951494, 0.0588045)
+bones/12/rotation = Quaternion(-0.0741924, 0.975928, -0.205082, 0.00122129)
+bones/13/position = Vector3(0.325908, 1.38928, 0.15173)
+bones/13/rotation = Quaternion(0.264328, -0.0651633, 0.639989, 0.718539)
+bones/14/position = Vector3(-0.0128508, 0.324014, 0.777033)
+bones/15/position = Vector3(0.0892761, 0.269406, 0.160326)
+bones/15/rotation = Quaternion(0.471713, -7.45058e-09, 5.96047e-08, 0.881752)
+bones/16/position = Vector3(-4.48375e-06, -1.64522e-05, 2.92753e-05)
+bones/16/rotation = Quaternion(-3.68785e-08, 0.707107, 0.707107, -3.68785e-08)
+bones/17/position = Vector3(0.191738, 1.18916, -0.470641)
+bones/17/rotation = Quaternion(-8.9407e-08, 9.31323e-10, 0, 1)
+bones/18/position = Vector3(-0.325908, 1.37867, 0.175594)
+bones/18/rotation = Quaternion(0.377799, 0.168501, -0.620837, 0.66591)
+bones/19/rotation = Quaternion(-9.45931e-09, -0.707107, 0, 0.707107)
+bones/19/scale = Vector3(1, 1, 1)
+bones/20/position = Vector3(-0.0837318, 0.324014, 0.515325)
+bones/21/position = Vector3(-0.0972309, 0.019747, 0.153835)
+bones/21/rotation = Quaternion(0.313176, 6.14673e-08, 1.49012e-08, 0.949695)
+bones/22/position = Vector3(-4.63807e-07, -3.63879e-08, 7.428e-08)
+bones/22/rotation = Quaternion(3.68785e-08, 0.707107, 0.707107, 3.68785e-08)
+bones/23/position = Vector3(-0.191738, 1.18916, -0.470641)
+bones/23/rotation = Quaternion(-8.9407e-08, -9.31323e-10, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Skele"]
+root_motion_track = NodePath("%GeneralSkeleton:Root")
+libraries = {
+"": SubResource("AnimationLibrary_2dgtk"),
+"humanoid": ExtResource("3_6kseu")
+}
 
 [node name="MotionInterpolator3D" type="Node3D" parent="Skele"]
 process_priority = 1

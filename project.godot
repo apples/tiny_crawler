@@ -33,7 +33,7 @@ project/assembly_name="TinyCrawler"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/jigglebones/plugin.cfg", "res://addons/qodot/plugin.cfg")
+enabled=PackedStringArray("res://addons/jigglebones/plugin.cfg", "res://addons/qodot/plugin.cfg", "res://addons/wigglebone/plugin.cfg")
 
 [importer_defaults]
 
