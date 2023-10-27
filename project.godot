@@ -14,11 +14,13 @@ config/name="TinyCrawler"
 config/tags=PackedStringArray("prototype")
 run/main_scene="res://scenes/dungeon/dungeon.tscn"
 config/features=PackedStringArray("4.2", "C#", "GL Compatibility")
+run/low_processor_mode=true
 config/icon="res://icon.svg"
 
 [autoload]
 
 CursorCapture="res://autoload/cursor_capture.gd"
+DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 
 [display]
 
@@ -33,7 +35,7 @@ project/assembly_name="TinyCrawler"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/jigglebones/plugin.cfg", "res://addons/qodot/plugin.cfg", "res://addons/wigglebone/plugin.cfg")
+enabled=PackedStringArray("res://addons/debug_menu/plugin.cfg", "res://addons/jigglebones/plugin.cfg", "res://addons/qodot/plugin.cfg", "res://addons/wigglebone/plugin.cfg")
 
 [importer_defaults]
 
@@ -117,6 +119,7 @@ zoom_out={
 
 3d/physics_engine="JoltPhysics3D"
 3d/default_gravity=25.0
+jolt_3d/solver/position_iterations=4
 
 [rendering]
 

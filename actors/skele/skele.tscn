@@ -38,6 +38,7 @@ script = ExtResource("1_0f6wd")
 [node name="CharacterBase" parent="." instance=ExtResource("2_pv1av")]
 collision_layer = 8
 base_move_speed_multiplier = 1.5
+acceleration = 25.0
 
 [node name="AnimationTree" parent="CharacterBase" index="0"]
 root_node = NodePath("%AnimationTree/../../Skele")
@@ -48,7 +49,7 @@ libraries = {
 }
 anim_player = NodePath("../../Skele/AnimationPlayer")
 
-[node name="AttackHitbox" parent="CharacterBase" index="5"]
+[node name="AttackHitbox" parent="CharacterBase" index="6"]
 collision_layer = 16
 collision_mask = 2
 
@@ -56,34 +57,34 @@ collision_mask = 2
 
 [node name="GeneralSkeleton" parent="Skele/Armature" index="0"]
 bones/1/position = Vector3(0.00225623, 0.811098, 9.86231e-11)
-bones/1/rotation = Quaternion(0.02726, -6.73059e-18, 3.80706e-17, 0.999628)
-bones/2/rotation = Quaternion(0.212307, 0.680248, -0.129729, 0.689463)
-bones/3/rotation = Quaternion(0.173237, -0.680031, 0.256261, 0.664738)
+bones/1/rotation = Quaternion(0.0258106, -6.73067e-18, 3.80711e-17, 0.999667)
+bones/2/rotation = Quaternion(0.216274, 0.679359, -0.125329, 0.689919)
+bones/3/rotation = Quaternion(0.171431, -0.68069, 0.253589, 0.665557)
 bones/4/rotation = Quaternion(-3.1665e-08, 0.707107, -3.1665e-08, 0.707107)
-bones/5/rotation = Quaternion(0.305983, -1.08912e-17, 7.0011e-17, 0.952037)
-bones/6/rotation = Quaternion(0.243592, -0.669728, 0.108471, 0.693081)
-bones/7/rotation = Quaternion(0.17757, 0.678416, -0.262671, 0.66274)
-bones/9/rotation = Quaternion(-0.0415999, 0.652918, 0.744686, -0.131948)
-bones/10/rotation = Quaternion(0.264684, 0.628197, -0.731636, -0.00435787)
-bones/11/rotation = Quaternion(0.003918, 0.30197, 0.951494, 0.0588045)
-bones/12/rotation = Quaternion(-0.0741924, 0.975928, -0.205082, 0.00122129)
-bones/13/position = Vector3(0.325908, 1.38928, 0.15173)
-bones/13/rotation = Quaternion(0.264328, -0.0651633, 0.639989, 0.718539)
+bones/5/rotation = Quaternion(0.306892, -1.08914e-17, 7.00123e-17, 0.951744)
+bones/6/rotation = Quaternion(0.245467, -0.669387, 0.10536, 0.693229)
+bones/7/rotation = Quaternion(0.175156, 0.679322, -0.259101, 0.663859)
+bones/9/rotation = Quaternion(-0.0393824, 0.653022, 0.744946, -0.130641)
+bones/10/rotation = Quaternion(0.265365, 0.62571, -0.733518, -0.00436901)
+bones/11/rotation = Quaternion(0.00265989, 0.296538, 0.953378, 0.0559296)
+bones/12/rotation = Quaternion(-0.0716941, 0.97754, -0.198176, 0.00118015)
+bones/13/position = Vector3(0.325908, 1.38928, 0.152652)
+bones/13/rotation = Quaternion(0.269288, -0.0695852, 0.639523, 0.716695)
 bones/14/position = Vector3(-0.0128508, 0.324014, 0.777033)
-bones/15/position = Vector3(0.0892761, 0.269406, 0.160326)
+bones/15/position = Vector3(0.0878015, 0.270881, 0.160326)
 bones/15/rotation = Quaternion(0.471713, -7.45058e-09, 5.96047e-08, 0.881752)
 bones/16/position = Vector3(-4.48375e-06, -1.64522e-05, 2.92753e-05)
 bones/16/rotation = Quaternion(-3.68785e-08, 0.707107, 0.707107, -3.68785e-08)
 bones/17/position = Vector3(0.191738, 1.18916, -0.470641)
 bones/17/rotation = Quaternion(-8.9407e-08, 9.31323e-10, 0, 1)
-bones/18/position = Vector3(-0.325908, 1.37867, 0.175594)
-bones/18/rotation = Quaternion(0.377799, 0.168501, -0.620837, 0.66591)
+bones/18/position = Vector3(-0.325908, 1.37941, 0.174857)
+bones/18/rotation = Quaternion(0.374825, 0.16573, -0.621583, 0.667589)
 bones/19/rotation = Quaternion(-9.45931e-09, -0.707107, 0, 0.707107)
 bones/19/scale = Vector3(1, 1, 1)
 bones/20/position = Vector3(-0.0837318, 0.324014, 0.515325)
-bones/21/position = Vector3(-0.0972309, 0.019747, 0.153835)
+bones/21/position = Vector3(-0.0952033, 0.0182724, 0.153835)
 bones/21/rotation = Quaternion(0.313176, 6.14673e-08, 1.49012e-08, 0.949695)
-bones/22/position = Vector3(-4.63807e-07, -3.63879e-08, 7.428e-08)
+bones/22/position = Vector3(4.5267e-09, -1.28121e-09, 7.71257e-09)
 bones/22/rotation = Quaternion(3.68785e-08, 0.707107, 0.707107, 3.68785e-08)
 bones/23/position = Vector3(-0.191738, 1.18916, -0.470641)
 bones/23/rotation = Quaternion(-8.9407e-08, -9.31323e-10, 0, 1)
@@ -99,7 +100,6 @@ libraries = {
 process_priority = 1
 script = ExtResource("10_1fgty")
 target_path = NodePath("../../CharacterBase")
-position_smoothing = 0.5
 rotation_smoothing = 0.5
 
 [node name="StateMachine" type="Node" parent="."]

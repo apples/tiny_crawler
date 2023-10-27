@@ -40,11 +40,11 @@ top_level = true
 
 [node name="GeneralSkeleton" parent="Lizard/Armature" index="0"]
 bones/1/position = Vector3(0.00271953, 0.977648, 1.18874e-10)
-bones/1/rotation = Quaternion(0.0351149, -5.53061e-18, 3.82564e-17, 0.999383)
+bones/1/rotation = Quaternion(0.0351149, -6.01356e-18, 3.818e-17, 0.999383)
 bones/2/rotation = Quaternion(0.191324, 0.684399, -0.152637, 0.6868)
 bones/3/rotation = Quaternion(0.181838, -0.676776, 0.268985, 0.660724)
 bones/4/rotation = Quaternion(-3.1665e-08, 0.707107, -3.1665e-08, 0.707107)
-bones/5/rotation = Quaternion(0.301134, -1.81257e-17, 6.60892e-17, 0.953582)
+bones/5/rotation = Quaternion(0.301134, -1.52119e-17, 6.76653e-17, 0.953582)
 bones/9/rotation = Quaternion(0.233544, -0.671347, 0.124967, 0.692195)
 bones/10/rotation = Quaternion(0.190044, 0.673487, -0.281123, 0.65671)
 bones/11/rotation = Quaternion(-2.66614e-08, -0.707107, -1.54855e-08, 0.707107)
@@ -63,10 +63,9 @@ bones/27/rotation = Quaternion(-3.68785e-08, 0.707107, 0.707107, -3.68785e-08)
 bones/28/position = Vector3(0.231109, 1.43335, -0.567281)
 bones/28/rotation = Quaternion(-8.9407e-08, 9.31323e-10, 0, 1)
 bones/29/position = Vector3(-0.39283, 1.65703, 0.216387)
-bones/29/rotation = Quaternion(0.39394, 0.183605, -0.616539, 0.65649)
+bones/29/rotation = Quaternion(0.395105, 0.184699, -0.616212, 0.65579)
 bones/31/position = Vector3(-0.130222, 0.0332749, 0.185424)
 bones/31/rotation = Quaternion(0.313176, 6.14673e-08, 1.49012e-08, 0.949695)
-bones/32/position = Vector3(-5.59045e-07, -4.38598e-08, 8.95325e-08)
 bones/32/rotation = Quaternion(3.68785e-08, 0.707107, 0.707107, 3.68785e-08)
 bones/33/position = Vector3(-0.231109, 1.43335, -0.567281)
 bones/33/rotation = Quaternion(-8.9407e-08, -9.31323e-10, 0, 1)
@@ -82,7 +81,6 @@ libraries = {
 process_priority = 1
 script = ExtResource("3_1non6")
 target_path = NodePath("../../CharacterBase")
-position_smoothing = 0.5
 rotation_smoothing = 0.5
 
 [node name="ThirdPersonCamera" parent="." instance=ExtResource("4_xecjq")]

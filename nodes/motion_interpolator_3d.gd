@@ -3,9 +3,8 @@ class_name MotionInterpolator3D
 extends Node3D
 
 enum MotionMode {
-	SMOOTH,
-	STAY,
-	TARGET,
+	PHYSICS_INTERPOLATION,
+	SMOOTH_DAMP,
 }
 
 enum ProcessFunc {
@@ -24,17 +23,37 @@ enum ProcessFunc {
 
 @export_group("Position", "position")
 @export var position_keep_initial_offset: bool = false
-@export_range(0.0, 1.0, 0.01) var position_smoothing: float = 0.0
-@export var position_x_mode: MotionMode = MotionMode.SMOOTH
-@export var position_y_mode: MotionMode = MotionMode.SMOOTH
-@export var position_z_mode: MotionMode = MotionMode.SMOOTH
+@export var position_motion_mode: MotionMode = MotionMode.PHYSICS_INTERPOLATION:
+	get:
+		return position_motion_mode
+	set(v):
+		position_motion_mode = v
+		notify_property_list_changed()
+@export_range(0.0, 1.0, 0.01) var position_smoothing_x: float = 0.0
+@export_range(0.0, 1.0, 0.01) var position_smoothing_y: float = 0.0
+@export_range(0.0, 1.0, 0.01) var position_smoothing_z: float = 0.0
 
 @export_group("Rotation", "rotation")
+@export var rotation_motion_mode: MotionMode = MotionMode.PHYSICS_INTERPOLATION:
+	get:
+		return rotation_motion_mode
+	set(v):
+		rotation_motion_mode = v
+		notify_property_list_changed()
 @export_range(0.0, 1.0, 0.01) var rotation_smoothing: float = 0.0
 
-@onready var _target: Node3D = get_node(target_path)
+@onready var _target: Node3D
 
 var _offset: Vector3
+
+var _previous_target_xform: Transform3D
+var _current_target_xform: Transform3D
+
+func _validate_property(property: Dictionary) -> void:
+	if (property.name as String).begins_with("position_smoothing") and position_motion_mode != MotionMode.SMOOTH_DAMP:
+		property.usage = PROPERTY_USAGE_NO_EDITOR
+	if (property.name as String).begins_with("rotation_smoothing") and rotation_motion_mode != MotionMode.SMOOTH_DAMP:
+		property.usage = PROPERTY_USAGE_NO_EDITOR
 
 func _ready():
 	if process_priority == 0:
@@ -55,6 +74,10 @@ func _ready():
 				push_error("Inital offset cannot be calculated: parent not valid.")
 		else:
 			push_error("Inital offset cannot be calculated: target not in tree.")
+	
+	if _target:
+		_current_target_xform = _target.global_transform.translated(_offset)
+		_previous_target_xform = _current_target_xform
 
 func _process(delta:float):
 	if process_func == ProcessFunc.FRAME:
@@ -73,31 +96,29 @@ func _process_func(delta: float):
 	if not parent or not _target:
 		return
 	
-	var position_factor = 1.0 - pow(position_smoothing, delta * 60.0)
-	var rotation_factor = 1.0 - pow(rotation_smoothing, delta * 60.0)
+	var stay_xform := parent.global_transform
+	var target_xform := _target.global_transform.translated(_offset)
 	
-	var stay_position := parent.global_position
-	var target_position := _target.global_position + _offset
-	var smooth_position: Vector3 = lerp(stay_position, target_position, position_factor)
-	var result_position := Vector3.ZERO
+	if target_xform != _current_target_xform:
+		_previous_target_xform = _current_target_xform
+		_current_target_xform = target_xform
 	
-	match position_x_mode:
-		MotionMode.SMOOTH: result_position.x = smooth_position.x
-		MotionMode.STAY: result_position.x = stay_position.x
-		MotionMode.TARGET: result_position.x = target_position.x
+	match position_motion_mode:
+		MotionMode.SMOOTH_DAMP:
+			parent.global_position = Vector3(
+				lerpf(stay_xform.origin.x, target_xform.origin.x, 1.0 - pow(position_smoothing_x, delta * 60.0)),
+				lerpf(stay_xform.origin.y, target_xform.origin.y, 1.0 - pow(position_smoothing_y, delta * 60.0)),
+				lerpf(stay_xform.origin.z, target_xform.origin.z, 1.0 - pow(position_smoothing_z, delta * 60.0)))
+		MotionMode.PHYSICS_INTERPOLATION:
+			parent.global_position = _previous_target_xform.origin.lerp(_current_target_xform.origin, Engine.get_physics_interpolation_fraction())
 	
-	match position_y_mode:
-		MotionMode.SMOOTH: result_position.y = smooth_position.y
-		MotionMode.STAY: result_position.y = stay_position.y
-		MotionMode.TARGET: result_position.y = target_position.y
-	
-	match position_z_mode:
-		MotionMode.SMOOTH: result_position.z = smooth_position.z
-		MotionMode.STAY: result_position.z = stay_position.z
-		MotionMode.TARGET: result_position.z = target_position.z
-	
-	parent.global_position = result_position
-	parent.global_basis = parent.global_basis.get_rotation_quaternion().slerp(_target.global_basis.get_rotation_quaternion(), rotation_factor)
+	match rotation_motion_mode:
+		MotionMode.SMOOTH_DAMP:
+			parent.global_basis = stay_xform.basis.get_rotation_quaternion()\
+				.slerp(target_xform.basis.get_rotation_quaternion(), 1.0 - pow(rotation_smoothing, delta * 60.0))
+		MotionMode.PHYSICS_INTERPOLATION:
+			parent.global_basis = _previous_target_xform.basis.get_rotation_quaternion()\
+				.slerp(_current_target_xform.basis.get_rotation_quaternion(), Engine.get_physics_interpolation_fraction())
 
 func _get_configuration_warnings():
 	var result := PackedStringArray()

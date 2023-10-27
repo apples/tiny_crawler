@@ -1,14 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://23diikqy7ade"]
+[gd_scene load_steps=7 format=3 uid="uid://23diikqy7ade"]
 
 [ext_resource type="Script" path="res://actors/character_base/character_base.gd" id="1_4b51f"]
 [ext_resource type="AnimationNodeStateMachine" uid="uid://ra1hql5wuxiu" path="res://actors/player/player_animation_tree.tres" id="11_iixn4"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_t45pp"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s5enb"]
 radius = 0.25
+height = 1.573
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_vtwtn"]
 margin = 0.001
 radius = 0.25
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_8iiqe"]
+length = 0.678
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yqmr2"]
 size = Vector3(1.84962, 1.99988, 1.54626)
@@ -18,10 +22,9 @@ top_level = true
 collision_layer = 2
 collision_mask = 11
 floor_constant_speed = true
-floor_snap_length = 0.75
+floor_snap_length = 0.6
 script = ExtResource("1_4b51f")
 stairs_postfix = false
-stairs_always_snap = false
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 unique_name_in_owner = true
@@ -35,26 +38,33 @@ parameters/Movement/IdleRun/RunTimeScale/scale = 1.0
 animation_path = NodePath("..")
 
 [node name="MainCollisionShape" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CylinderShape3D_t45pp")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.214, 0)
+shape = SubResource("CapsuleShape3D_s5enb")
 
 [node name="StairShapeCastUp" type="ShapeCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 enabled = false
 shape = SubResource("CylinderShape3D_vtwtn")
 target_position = Vector3(0, 0, 0)
 
 [node name="StairShapeCastForward" type="ShapeCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 enabled = false
 shape = SubResource("CylinderShape3D_vtwtn")
 target_position = Vector3(0, 0, 0)
 
 [node name="StairShapeCastDown" type="ShapeCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 enabled = false
 shape = SubResource("CylinderShape3D_vtwtn")
 target_position = Vector3(0, 0, 0)
+
+[node name="LegPrototype" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.678, 0)
+shape = SubResource("SeparationRayShape3D_8iiqe")
 
 [node name="AttackHitbox" type="Area3D" parent="."]
 unique_name_in_owner = true
