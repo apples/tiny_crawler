@@ -22,7 +22,3 @@ func update_velocity(delta: float, default_update_velocity: Callable):
 func notify_action_finished():
 	if "notify_action_finished" in state_machine.current_state:
 		state_machine.current_state.notify_action_finished()
-
-
-func _on_character_base_process_done() -> void:
-	global_position = character_base.global_position

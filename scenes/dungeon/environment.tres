@@ -27,5 +27,6 @@ ambient_light_sky_contribution = 0.0
 reflected_light_source = 1
 fog_enabled = true
 fog_light_color = Color(0, 0, 0, 1)
-fog_density = 0.0415
+fog_density = 0.1082
+fog_sky_affect = 0.885
 fog_height_density = 0.252

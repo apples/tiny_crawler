@@ -35,36 +35,41 @@ anim_player = NodePath("../../Lizard/AnimationPlayer")
 [node name="CollisionShape3D" parent="CharacterBase/AttackHitbox" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.646558, 0.20696)
 
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="CharacterBase"]
+remote_path = NodePath("../..")
+update_rotation = false
+update_scale = false
+
 [node name="Lizard" parent="." instance=ExtResource("1_6sb3f")]
 top_level = true
 
 [node name="GeneralSkeleton" parent="Lizard/Armature" index="0"]
 bones/1/position = Vector3(0.00271953, 0.977648, 1.18874e-10)
-bones/1/rotation = Quaternion(0.0351149, -6.01356e-18, 3.818e-17, 0.999383)
-bones/2/rotation = Quaternion(0.191324, 0.684399, -0.152637, 0.6868)
-bones/3/rotation = Quaternion(0.181838, -0.676776, 0.268985, 0.660724)
+bones/1/rotation = Quaternion(0.0313241, -6.73028e-18, 3.80688e-17, 0.999509)
+bones/2/rotation = Quaternion(0.201285, 0.682552, -0.141849, 0.688103)
+bones/3/rotation = Quaternion(0.17801, -0.678249, 0.263322, 0.662535)
 bones/4/rotation = Quaternion(-3.1665e-08, 0.707107, -3.1665e-08, 0.707107)
-bones/5/rotation = Quaternion(0.301134, -1.52119e-17, 6.76653e-17, 0.953582)
-bones/9/rotation = Quaternion(0.233544, -0.671347, 0.124967, 0.692195)
-bones/10/rotation = Quaternion(0.190044, 0.673487, -0.281123, 0.65671)
+bones/5/rotation = Quaternion(0.30344, -1.08906e-17, 7.00071e-17, 0.952851)
+bones/9/rotation = Quaternion(0.238363, -0.670618, 0.117119, 0.692631)
+bones/10/rotation = Quaternion(0.184219, 0.67584, -0.272507, 0.659578)
 bones/11/rotation = Quaternion(-2.66614e-08, -0.707107, -1.54855e-08, 0.707107)
 bones/11/scale = Vector3(1, 1, 1)
-bones/13/rotation = Quaternion(-0.0529868, 0.652159, 0.74337, -0.138862)
-bones/14/rotation = Quaternion(0.260915, 0.641679, -0.721217, -0.00429599)
-bones/22/rotation = Quaternion(0.0108382, 0.329526, 0.941207, 0.0736546)
-bones/23/rotation = Quaternion(-0.0863997, 0.96721, -0.238825, 0.00142212)
-bones/24/position = Vector3(0.39283, 1.67455, 0.176966)
-bones/24/rotation = Quaternion(0.237722, -0.0415808, 0.641952, 0.727775)
+bones/13/rotation = Quaternion(-0.0476938, 0.652532, 0.744006, -0.135584)
+bones/14/rotation = Quaternion(0.262737, 0.635221, -0.726254, -0.00432588)
+bones/22/rotation = Quaternion(0.00749453, 0.316737, 0.946135, 0.0667096)
+bones/23/rotation = Quaternion(-0.0808707, 0.971333, -0.223542, 0.00133119)
+bones/24/position = Vector3(0.39283, 1.67455, 0.17978)
+bones/24/rotation = Quaternion(0.250403, -0.0527917, 0.641128, 0.72351)
 bones/25/position = Vector3(-0.0154896, 0.390546, 0.936588)
-bones/26/position = Vector3(0.117081, 0.315252, 0.193247)
+bones/26/position = Vector3(0.112578, 0.319756, 0.193247)
 bones/26/rotation = Quaternion(0.471713, -7.45058e-09, 5.96047e-08, 0.881752)
 bones/27/position = Vector3(-5.40443e-06, -1.98304e-05, 3.52867e-05)
 bones/27/rotation = Quaternion(-3.68785e-08, 0.707107, 0.707107, -3.68785e-08)
 bones/28/position = Vector3(0.231109, 1.43335, -0.567281)
 bones/28/rotation = Quaternion(-8.9407e-08, 9.31323e-10, 0, 1)
-bones/29/position = Vector3(-0.39283, 1.65703, 0.216387)
-bones/29/rotation = Quaternion(0.395105, 0.184699, -0.616212, 0.65579)
-bones/31/position = Vector3(-0.130222, 0.0332749, 0.185424)
+bones/29/position = Vector3(-0.39283, 1.65928, 0.214136)
+bones/29/rotation = Quaternion(0.386072, 0.176229, -0.618688, 0.661148)
+bones/31/position = Vector3(-0.124029, 0.0287714, 0.185424)
 bones/31/rotation = Quaternion(0.313176, 6.14673e-08, 1.49012e-08, 0.949695)
 bones/32/rotation = Quaternion(3.68785e-08, 0.707107, 0.707107, 3.68785e-08)
 bones/33/position = Vector3(-0.231109, 1.43335, -0.567281)
@@ -81,7 +86,6 @@ libraries = {
 process_priority = 1
 script = ExtResource("3_1non6")
 target_path = NodePath("../../CharacterBase")
-rotation_smoothing = 0.5
 
 [node name="ThirdPersonCamera" parent="." instance=ExtResource("4_xecjq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6368, 0)
@@ -107,8 +111,6 @@ script = ExtResource("14_lqrlb")
 
 [node name="Dodge" type="Node" parent="StateMachine"]
 script = ExtResource("7_dmn1x")
-
-[connection signal="process_done" from="CharacterBase" to="." method="_on_character_base_process_done"]
 
 [editable path="CharacterBase"]
 [editable path="Lizard"]
