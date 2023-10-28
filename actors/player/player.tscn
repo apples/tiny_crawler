@@ -45,31 +45,31 @@ top_level = true
 
 [node name="GeneralSkeleton" parent="Lizard/Armature" index="0"]
 bones/1/position = Vector3(0.00271953, 0.977648, 1.18874e-10)
-bones/1/rotation = Quaternion(0.0313241, -6.73028e-18, 3.80688e-17, 0.999509)
-bones/2/rotation = Quaternion(0.201285, 0.682552, -0.141849, 0.688103)
-bones/3/rotation = Quaternion(0.17801, -0.678249, 0.263322, 0.662535)
+bones/1/rotation = Quaternion(0.0297752, -5.35385e-18, 3.82874e-17, 0.999557)
+bones/2/rotation = Quaternion(0.205429, 0.681722, -0.13732, 0.68862)
+bones/3/rotation = Quaternion(0.176318, -0.678888, 0.260819, 0.663323)
 bones/4/rotation = Quaternion(-3.1665e-08, 0.707107, -3.1665e-08, 0.707107)
-bones/5/rotation = Quaternion(0.30344, -1.08906e-17, 7.00071e-17, 0.952851)
-bones/9/rotation = Quaternion(0.238363, -0.670618, 0.117119, 0.692631)
-bones/10/rotation = Quaternion(0.184219, 0.67584, -0.272507, 0.659578)
+bones/5/rotation = Quaternion(0.304406, -1.91961e-17, 6.55161e-17, 0.952542)
+bones/9/rotation = Quaternion(0.240339, -0.670295, 0.113853, 0.692805)
+bones/10/rotation = Quaternion(0.181733, 0.676817, -0.268829, 0.660774)
 bones/11/rotation = Quaternion(-2.66614e-08, -0.707107, -1.54855e-08, 0.707107)
 bones/11/scale = Vector3(1, 1, 1)
-bones/13/rotation = Quaternion(-0.0476938, 0.652532, 0.744006, -0.135584)
-bones/14/rotation = Quaternion(0.262737, 0.635221, -0.726254, -0.00432588)
-bones/22/rotation = Quaternion(0.00749453, 0.316737, 0.946135, 0.0667096)
-bones/23/rotation = Quaternion(-0.0808707, 0.971333, -0.223542, 0.00133119)
-bones/24/position = Vector3(0.39283, 1.67455, 0.17978)
-bones/24/rotation = Quaternion(0.250403, -0.0527917, 0.641128, 0.72351)
+bones/13/rotation = Quaternion(-0.0454263, 0.652715, 0.744236, -0.134211)
+bones/14/rotation = Quaternion(0.263492, 0.632512, -0.728342, -0.00433828)
+bones/22/rotation = Quaternion(0.00610927, 0.311299, 0.948151, 0.0637629)
+bones/23/rotation = Quaternion(-0.0784658, 0.973036, -0.216894, 0.00129164)
+bones/24/position = Vector3(0.39283, 1.67455, 0.18096)
+bones/24/rotation = Quaternion(0.2557, -0.0574902, 0.640724, 0.721655)
 bones/25/position = Vector3(-0.0154896, 0.390546, 0.936588)
-bones/26/position = Vector3(0.112578, 0.319756, 0.193247)
+bones/26/position = Vector3(0.11069, 0.321644, 0.193247)
 bones/26/rotation = Quaternion(0.471713, -7.45058e-09, 5.96047e-08, 0.881752)
 bones/27/position = Vector3(-5.40443e-06, -1.98304e-05, 3.52867e-05)
 bones/27/rotation = Quaternion(-3.68785e-08, 0.707107, 0.707107, -3.68785e-08)
 bones/28/position = Vector3(0.231109, 1.43335, -0.567281)
 bones/28/rotation = Quaternion(-8.9407e-08, 9.31323e-10, 0, 1)
-bones/29/position = Vector3(-0.39283, 1.65928, 0.214136)
-bones/29/rotation = Quaternion(0.386072, 0.176229, -0.618688, 0.661148)
-bones/31/position = Vector3(-0.124029, 0.0287714, 0.185424)
+bones/29/position = Vector3(-0.39283, 1.66023, 0.213192)
+bones/29/rotation = Quaternion(0.382937, 0.173298, -0.619516, 0.662968)
+bones/31/position = Vector3(-0.121434, 0.0268837, 0.185424)
 bones/31/rotation = Quaternion(0.313176, 6.14673e-08, 1.49012e-08, 0.949695)
 bones/32/rotation = Quaternion(3.68785e-08, 0.707107, 0.707107, 3.68785e-08)
 bones/33/position = Vector3(-0.231109, 1.43335, -0.567281)
@@ -84,18 +84,17 @@ libraries = {
 
 [node name="MotionInterpolator3D" type="Node3D" parent="Lizard"]
 process_priority = 1
+process_physics_priority = 1
 script = ExtResource("3_1non6")
 target_path = NodePath("../../CharacterBase")
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Lizard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47758, 0)
+remote_path = NodePath("../../ThirdPersonCamera")
 
 [node name="ThirdPersonCamera" parent="." instance=ExtResource("4_xecjq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6368, 0)
-top_level = true
-
-[node name="MotionInterpolator3D" type="Node3D" parent="ThirdPersonCamera"]
-process_priority = 1
-script = ExtResource("3_1non6")
-target_path = NodePath("../../CharacterBase")
-position_keep_initial_offset = true
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47758, 0)
 
 [node name="StateMachine" type="Node" parent="."]
 unique_name_in_owner = true

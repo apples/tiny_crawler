@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://components/visibility_area/visibility_area.gd" id="1_kqmqc"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_qxa2x"]
-radius = 40.0
+radius = 20.0
 
 [node name="VisibilityArea" type="Area3D"]
 collision_layer = 0

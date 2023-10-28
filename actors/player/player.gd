@@ -3,7 +3,7 @@ extends Node3D
 @export var properties: Dictionary
 @export var mouse_sensitivity := 0.01
 
-@onready var camera = $ThirdPersonCamera
+@onready var camera = %ThirdPersonCamera
 @onready var character_base = $CharacterBase
 @onready var state_machine: StateMachine = %StateMachine
 

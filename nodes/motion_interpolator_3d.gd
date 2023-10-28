@@ -51,6 +51,8 @@ var _current_target_xform: Transform3D
 func _ready():
 	if process_priority == 0:
 		process_priority = 1
+	if process_physics_priority == 0:
+		process_physics_priority = process_priority
 	
 	if Engine.is_editor_hint():
 		return
@@ -73,27 +75,38 @@ func _ready():
 		_previous_target_xform = _current_target_xform
 
 func _process(delta:float):
+	if Engine.is_editor_hint():
+		return
+		
+	print("process")
+	
 	if process_func == ProcessFunc.FRAME:
 		_process_func(delta)
 
 func _physics_process(delta: float):
-	if process_func == ProcessFunc.PHYSICS:
-		_process_func(delta)
-
-func _process_func(delta: float):
 	if Engine.is_editor_hint():
 		return
 	
+	print("physics_process")
+	
+	if process_func == ProcessFunc.PHYSICS:
+		_process_func(delta)
+	
+	await get_tree().process_frame
+	
+	print("advance")
+	
+	_previous_target_xform = _current_target_xform
+	_current_target_xform = _target.global_transform.translated(_offset)
+	
+
+func _process_func(delta: float):
 	var parent := get_parent_node_3d()
 	
 	if not parent or not _target:
 		return
 	
 	var target_xform := _target.global_transform.translated(_offset)
-	
-	if target_xform != _current_target_xform:
-		_previous_target_xform = _current_target_xform
-		_current_target_xform = target_xform
 	
 	match motion_mode:
 		MotionMode.SMOOTH_DAMP:

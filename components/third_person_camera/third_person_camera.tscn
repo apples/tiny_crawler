@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://oco5jpcxv3xc"]
+[gd_scene load_steps=3 format=3 uid="uid://oco5jpcxv3xc"]
 
 [ext_resource type="Script" path="res://components/third_person_camera/third_person_camera.gd" id="1_0376e"]
-[ext_resource type="Script" path="res://nodes/motion_interpolator_3d.gd" id="1_evlb6"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_uxynb"]
 radius = 0.25
@@ -20,16 +19,7 @@ top_level = true
 shape = SubResource("SphereShape3D_uxynb")
 spring_length = 3.0
 
-[node name="CameraTarget" type="Node3D" parent="CameraSpringArm"]
-
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="CameraSpringArm"]
 unique_name_in_owner = true
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -3.719)
-top_level = true
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -1.2214e-06, 0, 4.36995)
 current = true
-
-[node name="MotionInterpolator3D" type="Node3D" parent="Camera3D"]
-process_priority = 1
-script = ExtResource("1_evlb6")
-target_path = NodePath("../../CameraSpringArm/CameraTarget")
-motion_mode = 1

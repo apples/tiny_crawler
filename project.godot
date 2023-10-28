@@ -117,6 +117,7 @@ zoom_out={
 
 [physics]
 
+common/physics_ticks_per_second=20
 3d/physics_engine="JoltPhysics3D"
 3d/default_gravity=25.0
 jolt_3d/solver/position_iterations=4
